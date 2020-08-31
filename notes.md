@@ -35,8 +35,46 @@ production:
   password: <%= ENV['DATABASE_PASSWORD'] %>
 ```  
 7. $ RAILS_ENV=development rails g scaffold Category name:string  
-8. $ RAILS_ENV=development rails g scaffold Question current_question_iteration_id:integer 
+8. $ RAILS_ENV=development rails g scaffold Question category_id:integer current_question_iteration_id:integer 
 9. $ RAILS_ENV=development rails g scaffold QuestionIteration question_id:integer content:string  
 10. $ RAILS_ENV=development rails g scaffold QuestionResponse question_iteration_id:integer score:integer delete_question:boolean explanation:string  
 11. $ RAILS_ENV=development rake db:migrate  
-12. $ RAILS_ENV=development rake db:seed  
+12. $ RAILS_ENV=development rake db:seed
+13. Add model relationships:
+```
+class Category < ApplicationRecord
+  has_many :questions
+end
+
+class Question < ApplicationRecord
+  belongs_to :category
+  has_many :question_iterations
+end
+
+class QuestionIteration < ApplicationRecord
+  belongs_to :question
+  has_many :question_responses
+end
+
+class QuestionResponse < ApplicationRecord
+  belongs_to :question_iteration
+end
+```
+14. Update config/routes.rb
+```
+Rails.application.routes.draw do
+  resources :categories do
+    resources :questions do
+      resources :question_iterations do
+        resources :question_responses
+      end
+    end
+  end
+  resources :questions do
+    resources :question_iterations do
+      resources :question_responses
+    end
+  end
+end
+```
+15.  
