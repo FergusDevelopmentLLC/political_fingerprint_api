@@ -17,8 +17,8 @@ development:
 production:
   adapter: postgresql
   encoding: unicode
-  database: hiking_project_api
+  database: political_fingerprint_api
   host: localhost
   pool: 5
-  username: hiking_project_api
+  username: political_fingerprint_api
   password: <%= ENV['DATABASE_PASSWORD'] %>
