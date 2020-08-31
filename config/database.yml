@@ -1,0 +1,24 @@
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: political_fingerprint_api
+  pool: 5
+  username: political_fingerprint_api
+  password: sunflower13
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: political_fingerprint_api
+  pool: 5
+  username: political_fingerprint_api
+  password: sunflower13
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: hiking_project_api
+  host: localhost
+  pool: 5
+  username: hiking_project_api
+  password: <%= ENV['DATABASE_PASSWORD'] %>
