@@ -34,8 +34,9 @@ production:
   username: political_fingerprint_api
   password: <%= ENV['DATABASE_PASSWORD'] %>
 ```  
-7. $ rails g scaffold Category name:string  
-8. $ RAILS_ENV=development rake db:migrate  
-9. $ RAILS_ENV=development rake db:seed  
-10. At this point you should have your db working and populated with Category models.  
-
+7. $ RAILS_ENV=development rails g scaffold Category name:string  
+8. $ RAILS_ENV=development rails g scaffold Question current_question_iteration_id:integer 
+9. $ RAILS_ENV=development rails g scaffold QuestionIteration question_id:integer content:string  
+10. $ RAILS_ENV=development rails g scaffold QuestionResponse question_iteration_id:integer score:integer delete_question:boolean explanation:string  
+11. $ RAILS_ENV=development rake db:migrate  
+12. $ RAILS_ENV=development rake db:seed  

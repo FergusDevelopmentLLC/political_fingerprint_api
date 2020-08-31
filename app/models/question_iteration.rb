@@ -1,0 +1,2 @@
+class QuestionIteration < ApplicationRecord
+end
