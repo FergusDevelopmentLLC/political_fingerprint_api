@@ -78,3 +78,7 @@ Rails.application.routes.draw do
 end
 ```
 15. $ RAILS_ENV=development bundle exec rake environment make_questions
+
+sites:
+https://apidock.com/rails/ActiveRecord/QueryMethods/where
+https://www.politicalcompass.org/

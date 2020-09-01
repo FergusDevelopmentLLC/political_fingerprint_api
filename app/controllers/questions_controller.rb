@@ -49,6 +49,7 @@ class QuestionsController < ApplicationController
       if(iteration) 
         q = {}
         q[:question_id] = iteration[:question_id]
+        q[:question_iteration_id] = iteration[:id]
         q[:version] = iteration[:version]
         q[:content] = iteration[:content]
         currentQuestions.push(q)
