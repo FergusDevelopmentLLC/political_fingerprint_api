@@ -41,9 +41,18 @@ class QuestionsController < ApplicationController
   # GET /questions/by_version/1
   def by_version
     
-    currentQuestions = Question.all.map { |question| 
+    currentQuestions = []
+
+    Question.all.each { |question| 
       # TODO, harden this version param
-      QuestionIteration.where(["question_id = ? and version = ?", question.id, params[:version]])
+      iteration = QuestionIteration.where(["question_id = ? and version = ?", question.id, params[:version]]).first
+      if(iteration) 
+        q = {}
+        q[:question_id] = iteration[:question_id]
+        q[:version] = iteration[:version]
+        q[:content] = iteration[:content]
+        currentQuestions.push(q)
+      end
     }
 
     render json: currentQuestions
