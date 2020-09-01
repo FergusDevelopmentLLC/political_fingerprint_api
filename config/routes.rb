@@ -11,4 +11,9 @@ Rails.application.routes.draw do
       resources :question_responses
     end
   end
+
+  1
+
+  get 'questions/by_version/:version', to: 'questions#by_version'
+
 end

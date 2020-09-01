@@ -38,6 +38,17 @@ class QuestionsController < ApplicationController
     @question.destroy
   end
 
+  # GET /questions/by_version/1
+  def by_version
+    
+    currentQuestions = Question.all.map { |question| 
+      # TODO, harden this version param
+      QuestionIteration.where(["question_id = ? and version = ?", question.id, params[:version]])
+    }
+
+    render json: currentQuestions
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
