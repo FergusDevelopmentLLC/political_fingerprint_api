@@ -2,8 +2,8 @@
 
 one:
   category_id: 1
-  current_question_iteration_id: 1
+  current_version: 1
 
 two:
   category_id: 1
-  current_question_iteration_id: 1
+  current_version: 1

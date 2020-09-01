@@ -2,8 +2,10 @@
 
 one:
   question_id: 1
+  version: 1
   content: MyString
 
 two:
   question_id: 1
+  version: 1
   content: MyString
