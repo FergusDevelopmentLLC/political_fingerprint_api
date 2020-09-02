@@ -82,3 +82,10 @@ end
 sites:
 https://apidock.com/rails/ActiveRecord/QueryMethods/where
 https://www.politicalcompass.org/
+https://gist.github.com/pablosalgadom/4d75f30517edc6230a67
+https://til.hashrocket.com/posts/8b8b4d00a3-generate-a-rails-secret-key
+https://www.postgresql.org/docs/8.0/sql-createuser.html
+https://www.postgresql.org/docs/9.0/sql-createdatabase.html
+https://askubuntu.com/questions/409541/save-the-terminal-history-to-a-file-for-print
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-18-04
+https://stackoverflow.com/questions/3842818/how-to-change-rails-3-server-default-port-in-develoment
