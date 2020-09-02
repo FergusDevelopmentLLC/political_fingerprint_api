@@ -19,12 +19,20 @@ task :make_questions do
   QuestionIteration.create!(
     question_id: q.id,
     version: 1,
+    economic_effect: question["effect"]["econ"],
+    diplomatic_effect: question["effect"]["dipl"],
+    government_effect: question["effect"]["govt"],
+    societal_effect: question["effect"]["scty"],
     content: question["questionV001"]
   )
 
   QuestionIteration.create!(
     question_id: q.id,
     version: 2,
+    economic_effect: question["effect"]["econ"],
+    diplomatic_effect: question["effect"]["dipl"],
+    government_effect: question["effect"]["govt"],
+    societal_effect: question["effect"]["scty"],
     content: question["questionV002"]
   )
 

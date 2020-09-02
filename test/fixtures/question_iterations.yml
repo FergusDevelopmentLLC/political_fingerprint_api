@@ -4,8 +4,16 @@ one:
   question_id: 1
   version: 1
   content: MyString
+  economic_effect: 1
+  diplomatic_effect: 1
+  government_effect: 1
+  societal_effect: 1
 
 two:
   question_id: 1
   version: 1
   content: MyString
+  economic_effect: 1
+  diplomatic_effect: 1
+  government_effect: 1
+  societal_effect: 1

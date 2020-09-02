@@ -3,12 +3,6 @@
     "questionV001": "Oppression by corporations is more of a concern than oppression by governments.",
     "questionV002": "The growing influence of corporations is more of a concern than the growing influence of governments.",
     "category": "Economics",
-    "sentimentCounts": {
-      "This question feels overly biased and should be deleted or re-written.": 1,
-      "This question has a bit of bias, but is acceptable.": 5,
-      "This question feels unbiased.": 3,
-      "This question has a defect, get rid of it.": 1
-    },
     "effect": {
       "econ": 10,
       "dipl": 0,
@@ -20,12 +14,6 @@
     "questionV001": "It is necessary for the government to intervene in the economy to protect consumers.",
     "questionV002": "It is sometimes necessary for the government to step in an make corrections to the economy.",
     "category": "Economics",
-    "sentimentCounts": {
-      "This question feels overly biased and should be deleted or re-written.": 1,
-      "This question has a bit of bias, but is acceptable.": 5,
-      "This question feels unbiased.": 3,
-      "This question has a defect, get rid of it.": 1
-    },
     "effect": {
       "econ": 10,
       "dipl": 0,
@@ -42,12 +30,6 @@
     "questionV001": "The freer the markets, the freer the people.",
     "questionV002": "In general, people should be free to buy and sell whatever goods they want.",
     "category": "Economics",
-    "sentimentCounts": {
-      "This question feels overly biased and should be deleted or re-written.": 1,
-      "This question has a bit of bias, but is acceptable.": 5,
-      "This question feels unbiased.": 3,
-      "This question has a defect, get rid of it.": 1
-    },
     "effect": {
       "econ": -10,
       "dipl": 0,

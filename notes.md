@@ -36,7 +36,7 @@ production:
 ```  
 7. $ RAILS_ENV=development rails g scaffold Category name:string  
 8. $ RAILS_ENV=development rails g scaffold Question category_id:integer current_version:integer 
-9. $ RAILS_ENV=development rails g scaffold QuestionIteration question_id:integer version:integer content:string  
+9. $ RAILS_ENV=development rails g scaffold QuestionIteration question_id:integer version:integer content:string economic_effect:integer diplomatic_effect:integer government_effect:integer societal_effect:integer
 10. $ RAILS_ENV=development rails g scaffold QuestionResponse question_iteration_id:integer score:integer delete_question:boolean explanation:string  
 11. $ RAILS_ENV=development rake db:migrate  
 12. $ RAILS_ENV=development rake db:seed

@@ -4,6 +4,10 @@ class CreateQuestionIterations < ActiveRecord::Migration[6.0]
       t.integer :question_id
       t.integer :version
       t.string :content
+      t.integer :economic_effect
+      t.integer :diplomatic_effect
+      t.integer :government_effect
+      t.integer :societal_effect
 
       t.timestamps
     end
