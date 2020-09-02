@@ -52,10 +52,14 @@ class QuestionsController < ApplicationController
         q[:question_iteration_id] = iteration[:id]
         q[:version] = iteration[:version]
         q[:content] = iteration[:content]
+        q[:effect] = {}
+        q[:effect][:econ] = iteration[:economic_effect]
+        q[:effect][:dipl] = iteration[:diplomatic_effect]
+        q[:effect][:govt] = iteration[:government_effect]
+        q[:effect][:scty] = iteration[:societal_effect]
         currentQuestions.push(q)
       end
     }
-
     render json: currentQuestions
   end
 
