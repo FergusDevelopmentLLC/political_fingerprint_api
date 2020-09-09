@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :ideologies
   resources :categories do
     resources :questions do
       resources :question_iterations do
