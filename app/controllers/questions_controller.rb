@@ -51,7 +51,7 @@ class QuestionsController < ApplicationController
         q[:question_id] = iteration[:question_id]
         q[:question_iteration_id] = iteration[:id]
         q[:version] = iteration[:version]
-        q[:content] = iteration[:content]
+        q[:question] = iteration[:content]
         q[:effect] = {}
         q[:effect][:econ] = iteration[:economic_effect]
         q[:effect][:dipl] = iteration[:diplomatic_effect]
