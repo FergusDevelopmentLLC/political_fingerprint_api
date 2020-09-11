@@ -7,7 +7,7 @@ Rails.application.load_tasks
 
 desc 'Generate Entity Relationship Diagram'
 task :generate_erd do
-  system "EAGER_LOAD=1 bundle exec erd --inheritance --filetype=dot --direct --attributes=foreign_keys,content"
+  system "EAGER_LOAD=1 bundle RAILS_ENV=development exec erd --inheritance --filetype=dot --direct --attributes=foreign_keys,content"
   system "dot -Tpng erd.dot > ./db/erd/generated/erd_#{DateTime.now.strftime('%Q')}.png"
   #File.delete('erd.dot') if File.exist?('erd.dot')
   #File.delete('erd.pdf') if File.exist?('erd.pdf')
