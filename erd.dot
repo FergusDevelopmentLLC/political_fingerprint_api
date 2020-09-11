@@ -1,0 +1,75 @@
+digraph PoliticalFingerprintApi {
+rankdir = "LR";
+ranksep = "0.5";
+nodesep = "0.4";
+pad = "0.4,0.4";
+margin = "0,0";
+concentrate = "true";
+labelloc = "t";
+fontsize = "13";
+fontname = "Arial Bold";
+splines = "spline";
+node[ shape  =  "Mrecord" , fontsize  =  "10" , fontname  =  "Arial" , margin  =  "0.07,0.05" , penwidth  =  "1.0"];
+edge[ fontname  =  "Arial" , fontsize  =  "7" , dir  =  "both" , arrowsize  =  "0.9" , penwidth  =  "1.0" , labelangle  =  "32" , labeldistance  =  "1.8"];
+rankdir = "TB";
+label = "PoliticalFingerprintApi domain model\n\n";
+m_Category [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Category</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="name">name <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Ideology [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Ideology</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="definition">definition <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="definition_source">definition_source <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="diplomatic_effect">diplomatic_effect <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="economic_effect">economic_effect <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="government_effect">government_effect <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="name">name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="societal_effect">societal_effect <font face="Arial Italic" color="grey60">integer</font></td></tr>
+</table>
+}>];
+m_Question [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Question</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="category_id">category_id <font face="Arial Italic" color="grey60">integer FK</font></td></tr>
+  <tr><td align="left" width="130" port="current_version">current_version <font face="Arial Italic" color="grey60">integer</font></td></tr>
+</table>
+}>];
+m_QuestionIteration [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">QuestionIteration</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="content">content <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="diplomatic_effect">diplomatic_effect <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="economic_effect">economic_effect <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="government_effect">government_effect <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="question_id">question_id <font face="Arial Italic" color="grey60">integer FK</font></td></tr>
+  <tr><td align="left" width="130" port="societal_effect">societal_effect <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="version">version <font face="Arial Italic" color="grey60">integer</font></td></tr>
+</table>
+}>];
+m_QuestionResponse [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">QuestionResponse</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="delete_question">delete_question <font face="Arial Italic" color="grey60">boolean</font></td></tr>
+  <tr><td align="left" width="130" port="explanation">explanation <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="question_iteration_id">question_iteration_id <font face="Arial Italic" color="grey60">integer FK</font></td></tr>
+  <tr><td align="left" width="130" port="score">score <font face="Arial Italic" color="grey60">integer</font></td></tr>
+</table>
+}>];
+  m_Category -> m_Question [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Question -> m_QuestionIteration [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_QuestionIteration -> m_QuestionResponse [arrowhead = "normal", arrowtail = "none", weight = "2"];
+}
