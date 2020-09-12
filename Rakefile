@@ -69,7 +69,14 @@ task :populate_ideologies do
     )
 
   end
-  
   # RAILS_ENV=development bundle exec rake environment populate_ideologies
+end
 
+desc 'Truncate QuestionResponses'
+task :truncate_question_responses do
+  
+  QuestionResponse.destroy_all
+  ActiveRecord::Base.connection.execute("TRUNCATE question_responses RESTART IDENTITY")
+
+  # RAILS_ENV=development bundle exec rake environment truncate_question_responses
 end

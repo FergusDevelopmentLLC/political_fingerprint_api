@@ -87,3 +87,7 @@ end
 
 18. $ RAILS_ENV=development bundle exec rake environment populate_ideologies
 
+19. $ RAILS_ENV=development rake db:migrate  
+
+20. 
+
