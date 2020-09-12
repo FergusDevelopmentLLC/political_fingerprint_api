@@ -37,7 +37,9 @@ production:
 7. $ RAILS_ENV=development rails g scaffold Category name:string  
 8. $ RAILS_ENV=development rails g scaffold Question category_id:integer current_version:integer 
 9. $ RAILS_ENV=development rails g scaffold QuestionIteration question_id:integer version:integer content:string economic_effect:integer diplomatic_effect:integer government_effect:integer societal_effect:integer
-10. $ RAILS_ENV=development rails g scaffold QuestionResponse question_iteration_id:integer score:integer delete_question:boolean explanation:string  
+10. $ RAILS_ENV=development rails g scaffold QuestionFeedback question_iteration_id:integer score:integer explanation:string  
+16. $ RAILS_ENV=development rails g scaffold Ideology name:string definition:string definition_source:string economic_effect:integer diplomatic_effect:integer government_effect:integer societal_effect:integer
+
 11. $ RAILS_ENV=development rake db:migrate  
 12. $ RAILS_ENV=development rake db:seed
 13. Add model relationships:
@@ -56,38 +58,34 @@ class QuestionIteration < ApplicationRecord
   has_many :question_responses
 end
 
-class QuestionResponse < ApplicationRecord
+class QuestionFeedback < ApplicationRecord
   belongs_to :question_iteration
 end
 ```
 14. Update config/routes.rb
 ```
 Rails.application.routes.draw do
+  resources :ideologies
+  resources :question_feedbacks
+
   resources :categories do
     resources :questions do
       resources :question_iterations do
-        resources :question_responses
+        resources :question_feedbacks
       end
     end
   end
   resources :questions do
     resources :question_iterations do
-      resources :question_responses
+      resources :question_feedbacks
     end
   end
+
+  get 'questions/by_version/:version', to: 'questions#by_version'
 end
 ```
-15. $ RAILS_ENV=development bundle exec rake environment make_questions
+15. $ RAILS_ENV=development bundle exec rake environment make_questions  
 
-==================================================================
+16. $ RAILS_ENV=development bundle exec rake environment populate_ideologies  
 
-16. $ RAILS_ENV=development rails g scaffold Ideology name:string definition:string definition_source:string economic_effect:integer diplomatic_effect:integer government_effect:integer societal_effect:integer
-
-17. $ RAILS_ENV=development rake db:migrate
-
-18. $ RAILS_ENV=development bundle exec rake environment truncate_question_responses
-
-19. $ RAILS_ENV=development rake db:migrate  
-
-20. 
-
+17. $ RAILS_ENV=development bundle exec rake environment truncate_question_feedbacks  
