@@ -80,3 +80,10 @@ task :truncate_question_feedbacks do
 
   # RAILS_ENV=development bundle exec rake environment truncate_question_feedbacks
 end
+
+desc 'Truncate TestResults'
+task :truncate_test_results do
+  TestResult.destroy_all
+  ActiveRecord::Base.connection.execute("TRUNCATE test_results RESTART IDENTITY")
+  # RAILS_ENV=development bundle exec rake environment truncate_test_results
+end
