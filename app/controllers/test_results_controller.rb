@@ -15,7 +15,10 @@ class TestResultsController < ApplicationController
 
   # POST /test_results
   def create
+    
     @test_result = TestResult.new(test_result_params)
+
+    @test_result.client_ip = remote_ip.to_str
 
     if @test_result.save
       render json: @test_result, status: :created, location: @test_result
