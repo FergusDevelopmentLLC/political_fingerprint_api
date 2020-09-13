@@ -46,6 +46,6 @@ class TestResultsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def test_result_params
-      params.require(:test_result).permit(:question_version, :economic, :diplomatic, :civil, :societal)
+      params.require(:test_result).permit(:client_ip, :question_version, :economic, :diplomatic, :civil, :societal)
     end
 end

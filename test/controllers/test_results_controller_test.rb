@@ -12,7 +12,7 @@ class TestResultsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create test_result" do
     assert_difference('TestResult.count') do
-      post test_results_url, params: { test_result: { civil: @test_result.civil, diplomatic: @test_result.diplomatic, economic: @test_result.economic, question_version: @test_result.question_version, societal: @test_result.societal } }, as: :json
+      post test_results_url, params: { test_result: { civil: @test_result.civil, client_ip: @test_result.client_ip, diplomatic: @test_result.diplomatic, economic: @test_result.economic, question_version: @test_result.question_version, societal: @test_result.societal } }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class TestResultsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update test_result" do
-    patch test_result_url(@test_result), params: { test_result: { civil: @test_result.civil, diplomatic: @test_result.diplomatic, economic: @test_result.economic, question_version: @test_result.question_version, societal: @test_result.societal } }, as: :json
+    patch test_result_url(@test_result), params: { test_result: { civil: @test_result.civil, client_ip: @test_result.client_ip, diplomatic: @test_result.diplomatic, economic: @test_result.economic, question_version: @test_result.question_version, societal: @test_result.societal } }, as: :json
     assert_response 200
   end
 

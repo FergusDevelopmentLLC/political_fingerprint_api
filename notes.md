@@ -87,5 +87,5 @@ end
 17. $ RAILS_ENV=development bundle exec rake environment populate_ideologies  
 18. $ RAILS_ENV=development bundle exec rake environment truncate_question_feedbacks  
 19. $ RAILS_ENV=development bundle exec rake environment truncate_question_feedbacks  
-20. $ RAILS_ENV=development rails g scaffold TestResult question_version:integer economic:float diplomatic:float civil:float societal:float
+20. $ RAILS_ENV=development rails g scaffold TestResult client_ip:string question_version:integer economic:float diplomatic:float civil:float societal:float
 21. $ RAILS_ENV=development rake db:migrate  
