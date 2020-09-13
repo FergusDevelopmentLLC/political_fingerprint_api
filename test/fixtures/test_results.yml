@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question_version: 1
+  economic: 1.5
+  diplomatic: 1.5
+  civil: 1.5
+  societal: 1.5
+
+two:
+  question_version: 1
+  economic: 1.5
+  diplomatic: 1.5
+  civil: 1.5
+  societal: 1.5
