@@ -3,21 +3,22 @@ class TestResultsController < ApplicationController
 
   # GET /test_results
   def index
-    @test_results = TestResult.all
+    
+    # @test_results = TestResult.all
+    # render json: @test_results
 
-    render json: @test_results
+    @test_results = TestResult.all
+    
+    trs = @test_results.map { |test_result| 
+      tr = anonymize(test_result)
+    }
+    render json: trs
   end
 
   # GET /test_results/1
   def show
     # render json: @test_result
-    tr = {}
-    tr["id"] = @test_result["id"]
-    tr["economic"] = @test_result["economic"]
-    tr["diplomatic"] = @test_result["diplomatic"]
-    tr["civil"] = @test_result["civil"]
-    tr["societal"] = @test_result["societal"]
-    tr["url"] = @test_result.url
+    tr = anonymize(@test_result)
     render json: tr
   end
 
@@ -26,6 +27,7 @@ class TestResultsController < ApplicationController
     
     @test_result = TestResult.new(test_result_params)
 
+    # save ip address of the test taker
     @test_result.client_ip = request.remote_ip.to_str
 
     if @test_result.save
@@ -59,4 +61,16 @@ class TestResultsController < ApplicationController
     def test_result_params
       params.require(:test_result).permit(:client_ip, :question_version, :economic, :diplomatic, :civil, :societal)
     end
+
+    def anonymize(test_result)
+      tr = {}
+      tr["id"] = test_result["id"]
+      tr["economic"] = test_result["economic"]
+      tr["diplomatic"] = test_result["diplomatic"]
+      tr["civil"] = test_result["civil"]
+      tr["societal"] = test_result["societal"]
+      tr["url"] = test_result.url
+      tr
+    end
+    
 end
