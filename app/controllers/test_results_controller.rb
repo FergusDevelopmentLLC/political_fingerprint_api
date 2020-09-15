@@ -10,7 +10,15 @@ class TestResultsController < ApplicationController
 
   # GET /test_results/1
   def show
-    render json: @test_result
+    # render json: @test_result
+    tr = {}
+    tr["id"] = @test_result["id"]
+    tr["economic"] = @test_result["economic"]
+    tr["diplomatic"] = @test_result["diplomatic"]
+    tr["civil"] = @test_result["civil"]
+    tr["societal"] = @test_result["societal"]
+    tr["url"] = @test_result.url
+    render json: tr
   end
 
   # POST /test_results
