@@ -83,6 +83,7 @@ task :truncate_test_results do
   # RAILS_ENV=development bundle exec rake environment truncate_test_results
 end
 
+desc 'Make QuestionFeedbacks and TestResults'
 task :make_question_feedbacks_test_results do
   
   seedfile = File.open("db/seeds_#{Time.now.getutc}.rb", 'a')
@@ -98,5 +99,15 @@ task :make_question_feedbacks_test_results do
   end
 
   seedfile.close
+
+  text = File.read('db/seeds_new.rb')
+
+  new_contents = text.gsub(/\"created_at\"=>/, '"created_at"=>"')
+  new_contents = new_contents.gsub(/\"updated_at\"=>/, '"updated_at"=>"')
+  new_contents = new_contents.gsub(/\+00:00,/, '+00:00",')
+  new_contents = new_contents.gsub(/\+00:00\}\)/, '+00:00" })')
+  
+  File.open('db/seeds_new.rb', "w") { |file| file.puts new_contents }
+
   #RAILS_ENV=development bundle exec rake environment make_question_feedbacks
 end
