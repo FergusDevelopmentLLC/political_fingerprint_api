@@ -86,7 +86,7 @@ end
 desc 'Make QuestionFeedbacks and TestResults'
 task :make_question_feedbacks_test_results do
   
-  seedfile = File.open("db/seeds_#{Time.now.getutc}.rb", 'a')
+  seedfile = File.open("db/seeds_new.rb", 'a')
   
   question_feedbacks = QuestionFeedback.all.order(:id)
   question_feedbacks.each do |qf|
