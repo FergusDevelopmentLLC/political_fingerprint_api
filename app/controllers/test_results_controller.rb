@@ -99,6 +99,12 @@ class TestResultsController < ApplicationController
       tr["civil"] = test_result["civil"]
       tr["societal"] = test_result["societal"]
       tr["url"] = test_result.url
+      tr["country"] = test_result.country
+      tr["country_name"] = test_result.country_name
+      tr["city"] = test_result.city
+      tr["region"] = test_result.region
+      tr["latitude"] = test_result.latitude
+      tr["longitude"] = test_result.longitude
       tr
     end
     
