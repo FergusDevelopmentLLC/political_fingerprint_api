@@ -1,4 +1,11 @@
+## Links
+
+https://github.com/ipinfo/rails  
+https://ipinfo.io/  
+https://github.com/rahulkanholkar/url_shortner_app/blob/4b9963574c25c93185b5486eaf2d897c09e78c80/config/environment.rb  
+
 ##Created by:  
+
 1. $ rails new political_fingerprint_api --database=postgresql --api  
 2. edit config/database.yml to add information credentials to your local db  
 3. $ sudo adduser political_fingerprint_api -- Make a new local user called political_fingerprint_api
@@ -88,4 +95,7 @@ end
 18. $ RAILS_ENV=development bundle exec rake environment truncate_question_feedbacks  
 19. $ RAILS_ENV=development bundle exec rake environment truncate_question_feedbacks  
 20. $ RAILS_ENV=development rails g scaffold TestResult client_ip:string question_version:integer economic:float diplomatic:float civil:float societal:float
+21. $ RAILS_ENV=development rake db:migrate  
+===========================================
+22. $ RAILS_ENV=development rails generate migration add_country_countryname_region_city_latitude_longitude_to_test_results country:string country_name:string region:string city:string latitude:float longitude:float
 21. $ RAILS_ENV=development rake db:migrate  
