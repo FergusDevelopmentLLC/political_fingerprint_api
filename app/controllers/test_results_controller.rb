@@ -11,7 +11,8 @@ class TestResultsController < ApplicationController
     
     trs = @test_results.map { |test_result| 
       tr = anonymize(test_result)
-    }
+    }.sort_by(&:id)
+
     render json: trs
   end
 
