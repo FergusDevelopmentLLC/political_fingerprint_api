@@ -27,8 +27,14 @@ class TestResultsController < ApplicationController
     
     @test_result = TestResult.new(test_result_params)
 
-    # save ip address of the test taker
+    # save geolocation info for the test taker (uses ipinfo)
     @test_result.client_ip = request.remote_ip.to_str
+    @test_result.country      = nil unless request.env['ipinfo'].respond_to?(:country)
+    @test_result.country_name = nil unless request.env['ipinfo'].respond_to?(:country_name)
+    @test_result.region       = nil unless request.env['ipinfo'].respond_to?(:region)
+    @test_result.city         = nil unless request.env['ipinfo'].respond_to?(:city)
+    @test_result.latitude     = nil unless request.env['ipinfo'].respond_to?(:latitude)
+    @test_result.longitude    = nil unless request.env['ipinfo'].respond_to?(:longitude)
 
     if @test_result.save
       render json: @test_result, status: :created, location: @test_result
