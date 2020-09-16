@@ -11,7 +11,7 @@ class TestResultsController < ApplicationController
     
     trs = @test_results.map { |test_result| 
       tr = anonymize(test_result)
-    }.sort_by(&:id)
+    }.sort_by { |tr| tr["id"] }
 
     render json: trs
   end
@@ -29,7 +29,7 @@ class TestResultsController < ApplicationController
     @test_result = TestResult.new(test_result_params)
 
     # save geolocation info for the test taker (uses ipinfo)
-    @test_result.client_ip = request.remote_ip.to_str
+    @test_result.client_ip    = request.remote_ip.to_str
     @test_result.country      = nil unless request.env['ipinfo'].respond_to?(:country)
     @test_result.country_name = nil unless request.env['ipinfo'].respond_to?(:country_name)
     @test_result.region       = nil unless request.env['ipinfo'].respond_to?(:region)
