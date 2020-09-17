@@ -26,16 +26,16 @@ class QuestionFeedbacksController < ApplicationController
 
   # PATCH/PUT /question_feedbacks/1
   def update
-    if @question_feedback.update(question_feedback_params)
-      render json: @question_feedback
-    else
-      render json: @question_feedback.errors, status: :unprocessable_entity
-    end
+    # if @question_feedback.update(question_feedback_params)
+    #   render json: @question_feedback
+    # else
+    #   render json: @question_feedback.errors, status: :unprocessable_entity
+    # end
   end
 
   # DELETE /question_feedbacks/1
   def destroy
-    @question_feedback.destroy
+    # @question_feedback.destroy
   end
 
   private

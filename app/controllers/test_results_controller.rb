@@ -68,16 +68,16 @@ class TestResultsController < ApplicationController
 
   # PATCH/PUT /test_results/1
   def update
-    if @test_result.update(test_result_params)
-      render json: @test_result
-    else
-      render json: @test_result.errors, status: :unprocessable_entity
-    end
+    # if @test_result.update(test_result_params)
+    #   render json: @test_result
+    # else
+    #   render json: @test_result.errors, status: :unprocessable_entity
+    # end
   end
 
   # DELETE /test_results/1
   def destroy
-    @test_result.destroy
+    # @test_result.destroy
   end
 
   private

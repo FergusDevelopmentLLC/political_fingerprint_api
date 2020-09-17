@@ -26,16 +26,16 @@ class IdeologiesController < ApplicationController
 
   # PATCH/PUT /ideologies/1
   def update
-    if @ideology.update(ideology_params)
-      render json: @ideology
-    else
-      render json: @ideology.errors, status: :unprocessable_entity
-    end
+    # if @ideology.update(ideology_params)
+    #   render json: @ideology
+    # else
+    #   render json: @ideology.errors, status: :unprocessable_entity
+    # end
   end
 
   # DELETE /ideologies/1
   def destroy
-    @ideology.destroy
+    # @ideology.destroy
   end
 
   private

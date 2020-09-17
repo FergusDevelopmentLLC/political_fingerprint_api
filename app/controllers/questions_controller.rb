@@ -26,16 +26,16 @@ class QuestionsController < ApplicationController
 
   # PATCH/PUT /questions/1
   def update
-    if @question.update(question_params)
-      render json: @question
-    else
-      render json: @question.errors, status: :unprocessable_entity
-    end
+    # if @question.update(question_params)
+    #   render json: @question
+    # else
+    #   render json: @question.errors, status: :unprocessable_entity
+    # end
   end
 
   # DELETE /questions/1
   def destroy
-    @question.destroy
+    # @question.destroy
   end
 
   # GET /questions/by_version/1
