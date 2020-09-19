@@ -105,6 +105,7 @@ class TestResultsController < ApplicationController
       tr["region"] = test_result.region
       tr["latitude"] = test_result.latitude
       tr["longitude"] = test_result.longitude
+      tr["taken_at"] = test_result.updated_at
       tr
     end
     
