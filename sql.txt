@@ -1,0 +1,40 @@
+Version 2 statements...
+
+SELECT id, category_id, current_version, created_at, updated_at
+FROM public.questions;
+
+SELECT * 
+FROM question_iterations
+WHERE version = 1
+AND (economic_effect > 0 OR government_effect > 0);
+
+SELECT *
+FROM question_iterations
+WHERE version = 1;
+
+DELETE 
+FROM question_iterations
+WHERE version = 2;
+
+#https://stackoverflow.com/questions/13016851/postgresql-sub-select-inside-insert
+
+#INSERT INTO widgets (map_id, widget_name)
+#SELECT mt.map_id, 'Bupo'
+#FROM map_tags mt
+#WHERE mt.map_license = '12345'
+
+#create version 2 questions from those only concerned with econ or govt. attempting to limit questions.
+INSERT INTO question_iterations (question_id, version, content, economic_effect, diplomatic_effect, government_effect, societal_effect, created_at, updated_at)
+(
+	SELECT question_id, 2 as version, content, economic_effect, 0 as diplomatic_effect, government_effect, 0 as societal_effect, NOW()::timestamp as created_at, NOW()::timestamp as updated_at
+	FROM question_iterations
+	WHERE version = 1
+	AND (economic_effect > 0 OR government_effect > 0)
+);
+
+SELECT *
+FROM question_iterations
+WHERE version = 2;
+
+FROM question_iterations
+WHERE version = 2;
