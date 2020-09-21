@@ -15,27 +15,27 @@ class CongressionalDistrictsController < ApplicationController
 
   # POST /congressional_districts
   def create
-    @congressional_district = CongressionalDistrict.new(congressional_district_params)
+    # @congressional_district = CongressionalDistrict.new(congressional_district_params)
 
-    if @congressional_district.save
-      render json: @congressional_district, status: :created, location: @congressional_district
-    else
-      render json: @congressional_district.errors, status: :unprocessable_entity
-    end
+    # if @congressional_district.save
+    #   render json: @congressional_district, status: :created, location: @congressional_district
+    # else
+    #   render json: @congressional_district.errors, status: :unprocessable_entity
+    # end
   end
 
   # PATCH/PUT /congressional_districts/1
   def update
-    if @congressional_district.update(congressional_district_params)
-      render json: @congressional_district
-    else
-      render json: @congressional_district.errors, status: :unprocessable_entity
-    end
+    # if @congressional_district.update(congressional_district_params)
+    #   render json: @congressional_district
+    # else
+    #   render json: @congressional_district.errors, status: :unprocessable_entity
+    # end
   end
 
   # DELETE /congressional_districts/1
   def destroy
-    @congressional_district.destroy
+    # @congressional_district.destroy
   end
 
   private
