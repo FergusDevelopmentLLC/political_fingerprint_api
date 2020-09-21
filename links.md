@@ -12,3 +12,4 @@ https://docs.mapbox.com/mapbox-gl-js/example/flyto/
 
 
 https://stackoverflow.com/questions/2831059/how-to-drop-columns-using-rails-migration
+https://medium.com/better-programming/4-ruby-methods-you-didnt-know-you-needed-1b223ec1963c
