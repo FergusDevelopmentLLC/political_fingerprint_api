@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :congressional_districts
   resources :test_results
   resources :ideologies
   resources :question_feedbacks

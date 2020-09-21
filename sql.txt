@@ -38,3 +38,13 @@ WHERE version = 2;
 
 FROM question_iterations
 WHERE version = 2;
+
+--------------------------------------------------
+congressional_districts
+
+INSERT INTO congressional_districts (geoid, name, latitude, longitude, created_at, updated_at)
+(
+	SELECT geoid, namelsad as name, CAST(intptlat AS numeric) as latitude, CAST(intptlon AS numeric) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at
+	from voting_district_2018_raw
+	order by geoid
+);
