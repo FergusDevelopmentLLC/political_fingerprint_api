@@ -94,8 +94,7 @@ class TestResultsController < ApplicationController
 
       tr["url"] = test_result.url
       tr["location"] = test_result.location
-      tr["taken_at"] = test_result.updated_at
-
+      
       tr["country"] = test_result["country"]
       tr["country_name"] = test_result["country_name"]
       tr["latitude"] = test_result["latitude"]
