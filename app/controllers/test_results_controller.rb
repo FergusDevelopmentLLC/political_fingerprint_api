@@ -94,18 +94,21 @@ class TestResultsController < ApplicationController
     def anonymize(test_result)
       tr = {}
       tr["id"] = test_result["id"]
+
+      tr["url"] = test_result.url
+      tr["location"] = test_result.location
+      tr["taken_at"] = test_result.updated_at
+
+      tr["country"] = test_result["country"]
+      tr["country_name"] = test_result["country_name"]
+      tr["latitude"] = test_result["latitude"]
+      tr["longitude"] = test_result["longitude"]
+      
       tr["economic"] = test_result["economic"]
       tr["diplomatic"] = test_result["diplomatic"]
       tr["civil"] = test_result["civil"]
       tr["societal"] = test_result["societal"]
-      tr["url"] = test_result.url
-      tr["country"] = test_result.country
-      tr["country_name"] = test_result.country_name
-      tr["city"] = test_result.city
-      tr["region"] = test_result.region
-      tr["latitude"] = test_result.latitude
-      tr["longitude"] = test_result.longitude
-      tr["taken_at"] = test_result.updated_at
+
       tr
     end
     
