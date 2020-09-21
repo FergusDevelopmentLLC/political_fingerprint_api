@@ -99,3 +99,5 @@ end
 ===========================================
 22. $ RAILS_ENV=development rails generate migration add_country_countryname_region_city_latitude_longitude_to_test_results country:string country_name:string region:string city:string latitude:float longitude:float
 21. $ RAILS_ENV=development rake db:migrate  
+===========================================
+22. $ RAILS_ENV=development rake db:migrate  

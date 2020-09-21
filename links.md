@@ -8,3 +8,7 @@ Mapbox:
 https://docs.mapbox.com/mapbox-gl-js/example/display-and-style-rich-text-labels/
 https://github.com/mapbox/mapbox-gl-js/issues/3072 (How?)
 https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/#get
+https://docs.mapbox.com/mapbox-gl-js/example/flyto/
+
+
+https://stackoverflow.com/questions/2831059/how-to-drop-columns-using-rails-migration
