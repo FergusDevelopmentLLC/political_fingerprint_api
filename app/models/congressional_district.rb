@@ -1,2 +1,0 @@
-class CongressionalDistrict < ApplicationRecord
-end

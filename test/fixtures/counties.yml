@@ -3,11 +3,19 @@
 one:
   geoid: MyString
   name: MyString
+  statefp: MyString
+  countyfp: MyString
+  state_abbrev: MyString
+  state_name: MyString
   latitude: 1.5
   longitude: 1.5
 
 two:
   geoid: MyString
   name: MyString
+  statefp: MyString
+  countyfp: MyString
+  state_abbrev: MyString
+  state_name: MyString
   latitude: 1.5
   longitude: 1.5

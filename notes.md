@@ -104,3 +104,6 @@ end
 ===========================================
 23. $ RAILS_ENV=development rails g scaffold CongressionalDistrict geoid:string name:string latitude:float longitude:float  
 24. $ RAILS_ENV=development rake db:migrate
+===========================================
+25. $ RAILS_ENV=development rails g scaffold County geoid:string name:string state:string latitude:float longitude:float
+26. $ RAILS_ENV=development rake db:migrate

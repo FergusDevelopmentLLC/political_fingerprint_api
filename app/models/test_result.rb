@@ -74,4 +74,44 @@ class TestResult < ApplicationRecord
     nil
   end
 
+  def closest_county
+
+    # cds = CongressionalDistrict.all
+
+    # shortest_distance = distance_between([self.latitude, self.longitude], [cds.first.latitude, cds.first.longitude])
+
+    # return_congressional_district = nil
+
+    # binding.pry
+    
+    # cds.each { |cd| 
+    #   binding.pry
+    #   this_distance = distance_between([self.latitude, self.longitude], [cds[cd].latitude, cds[cd].longitude])
+    #   if this_distance < shortest_distance
+    #     shortest_distance = this_distance
+    #     return_congressional_district = cd
+    #   end
+    # }
+
+    # return_congressional_district
+
+  end
+
+  def distance_between(loc1, loc2)
+    rad_per_deg = Math::PI/180  # PI / 180
+    rkm = 6371                  # Earth radius in kilometers
+    rm = rkm * 1000             # Radius in meters
+  
+    dlat_rad = (loc2[0]-loc1[0]) * rad_per_deg  # Delta, converted to rad
+    dlon_rad = (loc2[1]-loc1[1]) * rad_per_deg
+  
+    lat1_rad, lon1_rad = loc1.map {|i| i * rad_per_deg }
+    lat2_rad, lon2_rad = loc2.map {|i| i * rad_per_deg }
+  
+    a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
+    c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a))
+  
+    rm * c # Delta in meters
+  end
+
 end

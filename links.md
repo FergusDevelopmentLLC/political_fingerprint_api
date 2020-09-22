@@ -12,4 +12,10 @@ https://docs.mapbox.com/mapbox-gl-js/example/flyto/
 
 
 https://stackoverflow.com/questions/2831059/how-to-drop-columns-using-rails-migration
-https://medium.com/better-programming/4-ruby-methods-you-didnt-know-you-needed-1b223ec1963c
+https://medium.com/better-programming/4-ruby-methods-you-didnt-know-you-needed-1b223ec1963c  
+https://dzone.com/articles/rails-scaffold-2  
+https://www.postgresqltutorial.com/postgresql-cast/  
+https://stackoverflow.com/questions/12966638/how-to-calculate-the-distance-between-two-gps-coordinates-without-using-google-m
+https://postgis.net/install/
+https://catalog.data.gov/dataset/tiger-line-shapefile-2018-nation-u-s-116th-congressional-district-national  
+https://careerkarma.com/blog/ruby-each-with-index/

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_21_222652) do
+ActiveRecord::Schema.define(version: 2020_09_22_225013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,9 +21,13 @@ ActiveRecord::Schema.define(version: 2020_09_21_222652) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "congressional_districts", force: :cascade do |t|
+  create_table "counties", force: :cascade do |t|
     t.string "geoid"
     t.string "name"
+    t.string "statefp"
+    t.string "countyfp"
+    t.string "state_abbrev"
+    t.string "state_name"
     t.float "latitude"
     t.float "longitude"
     t.datetime "created_at", precision: 6, null: false

@@ -48,3 +48,64 @@ INSERT INTO congressional_districts (geoid, name, latitude, longitude, created_a
 	from voting_district_2018_raw
 	order by geoid
 );
+
+
+SELECT id, geom, statefp, cd116fp, geoid, namelsad, lsad, cdsessn, mtfcc, funcstat, aland, awater, intptlat, intptlon
+FROM public.voting_district_2018_raw;
+
+SELECT geoid, namelsad as name, CAST(intptlat AS numeric) as latitude, CAST(intptlon AS numeric) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at
+from voting_district_2018_raw
+order by geoid;
+
+INSERT INTO congressional_districts (geoid, name, latitude, longitude, created_at, updated_at)
+(
+	SELECT geoid, namelsad as name, CAST(intptlat AS numeric) as latitude, CAST(intptlon AS numeric) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at
+	from voting_district_2018_raw
+	order by geoid
+);
+
+select * from congressional_districts;
+
+drop extension "postgis_topology";
+drop extension "postgis";
+
+create extension "postgis";
+
+
+SELECT id, geom, statefp, countyfp, countyns, affgeoid, geoid, name, lsad, aland, awater, ST_X(ST_centroid(geom)), ST_Y(ST_centroid(geom))
+FROM county_2018_raw
+limit 20;
+
+
+SELECT id, geom, statefp, countyfp, countyns, affgeoid, geoid, name, lsad, aland, awater, ST_X(ST_centroid(geom)), ST_Y(ST_centroid(geom))
+FROM county_2018_raw
+limit 20;
+
+SELECT statefp, countyfp, geoid, affgeoid, name, ST_Y(ST_centroid(geom)) as latidude, ST_X(ST_centroid(geom)) as longitude
+FROM county_2018_raw
+limit 20;
+
+
+SELECT cr.statefp, cr.countyfp, cr.geoid, cr.affgeoid, cr.name, ST_Y(ST_centroid(cr.geom)) as latidude, ST_X(ST_centroid(cr.geom)) as longitude, state.name
+FROM county_2018_raw cr
+LEFT JOIN state on state.affgeoid = cr.affgeoid
+limit 20;
+
+select * from state;
+
+SELECT cr.geoid, cr.name, cr.statefp, cr.countyfp, state.stusps as state_abbrev, state.name as state_name, ST_Y(ST_centroid(cr.geom)) as latitude, ST_X(ST_centroid(cr.geom)) as longitude
+FROM county_2018_raw cr
+LEFT JOIN state on state.statefp = cr.statefp
+order by cr.geoid
+limit 20;
+
+\copy (
+	SELECT cr.id, cr.geoid, cr.name, cr.statefp, cr.countyfp, state.stusps as state_abbrev, state.name as state_name, ST_Y(ST_centroid(cr.geom)) as latitude, ST_X(ST_centroid(cr.geom)) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at
+	FROM county_2018_raw cr
+	LEFT JOIN state on state.statefp = cr.statefp
+	order by cr.id
+) TO '/tmp/counties.csv' CSV HEADER;
+
+\copy ( SELECT cr.id, cr.geoid, cr.name, cr.statefp, cr.countyfp, state.stusps as state_abbrev, state.name as state_name, ST_Y(ST_centroid(cr.geom)) as latitude, ST_X(ST_centroid(cr.geom)) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at FROM county_2018_raw cr INNER JOIN state on state.statefp = cr.statefp order by cr.id ) TO '/tmp/counties.csv' CSV HEADER;
+
+\copy counties FROM '/tmp/counties.csv' DELIMITER ',' CSV HEADER;
