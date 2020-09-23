@@ -92,18 +92,17 @@ class TestResultsController < ApplicationController
       tr = {}
       tr["id"] = test_result["id"]
 
-      # tr["url"] = test_result.url
+      tr["url"] = test_result.url
       tr["location"] = test_result.location
-      tr["closest_congressional_district_geoid"] = test_result.closest_congressionial_district.geoid
-      # tr["country"] = test_result["country"]
-      # tr["country_name"] = test_result["country_name"]
-      # tr["latitude"] = test_result["latitude"]
-      # tr["longitude"] = test_result["longitude"]
+      tr["country"] = test_result["country"]
+      tr["country_name"] = test_result["country_name"]
+      tr["latitude"] = test_result["latitude"]
+      tr["longitude"] = test_result["longitude"]
       
-      # tr["economic"] = test_result["economic"]
-      # tr["diplomatic"] = test_result["diplomatic"]
-      # tr["civil"] = test_result["civil"]
-      # tr["societal"] = test_result["societal"]
+      tr["economic"] = test_result["economic"]
+      tr["diplomatic"] = test_result["diplomatic"]
+      tr["civil"] = test_result["civil"]
+      tr["societal"] = test_result["societal"]
 
       tr
     end
