@@ -102,7 +102,7 @@ limit 20;
 \copy (
 	SELECT cr.id, cr.geoid, cr.name, cr.statefp, cr.countyfp, state.stusps as state_abbrev, state.name as state_name, ST_Y(ST_centroid(cr.geom)) as latitude, ST_X(ST_centroid(cr.geom)) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at
 	FROM county_2018_raw cr
-	LEFT JOIN state on state.statefp = cr.statefp
+	INNER JOIN state on state.statefp = cr.statefp
 	order by cr.id
 ) TO '/tmp/counties.csv' CSV HEADER;
 
