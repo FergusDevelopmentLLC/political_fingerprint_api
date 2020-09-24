@@ -125,4 +125,44 @@ copy national_raw FROM '/tmp/national.txt' DELIMITER '|' CSV;
 
 copy ( select feature_id, feature_name as name, state_alpha as state_abbrev, state_numeric, county_name, county_numeric, prim_lat_dec as latitude, prim_long_dec as longitude from national_raw where feature_class = 'Populated Place' order by feature_id ) TO '/tmp/cities.csv' CSV HEADER;
 
+----------------------------------
+cities
+
+drop table national;
+CREATE TABLE national_raw (feature_id integer,feature_name varchar,feature_class varchar,state_alpha varchar,state_numeric varchar,county_name varchar,county_numeric varchar,primary_lat_dms varchar,prim_long_dms varchar,prim_lat_dec varchar,prim_long_dec varchar,source_lat_dms varchar,source_long_dms varchar,source_lat_dec varchar,source_long_dec varchar,elev_in_m varchar,elev_in_ft varchar,map_name varchar,date_created varchar,date_edited varchar);
+select * from national_raw;
+
+copy national_raw FROM '/tmp/national.txt' DELIMITER '|' CSV HEADER;
+
+select * from national_raw
+limit 20;
+
+select distinct feature_class from national_raw order by feature_class;
+
+select * from national_raw where feature_name = 'Denver';
+
+select * from national_raw 
+where feature_class = 'Populated Place';
+
+select feature_id, feature_name as name, state_alpha as state_abbrev, state_numeric, county_name, county_numeric, prim_lat_dec as latitude, prim_long_dec as longitude 
+from national_raw 
+where feature_class = 'Populated Place'
+order by feature_id
+limit 10;
+
+select feature_id, feature_name as name, state_alpha as state_abbrev, state_numeric, county_name, county_numeric, prim_lat_dec as latitude, prim_long_dec as longitude 
+from national_raw 
+where feature_class = 'Populated Place'
+order by feature_id;
+
+copy ( select feature_id, feature_name as name, state_alpha as state_abbrev, state_numeric, county_name, county_numeric, prim_lat_dec as latitude, prim_long_dec as longitude from national_raw where feature_class = 'Populated Place' order by feature_id ) TO '/tmp/cities.csv' CSV HEADER;
+
+select c.name, c.state_abbrev, state.name as state_name, c.county_name, cast(c.latitude as float) as latitude, cast(c.longitude as float) as longitude
+from cities_points c
+LEFT JOIN state on state.stusps = c.state_abbrev;
+limit 20;
+
+select * from state;
+
+copy ( select c.id, c.name, c.state_abbrev, state.name as state_name, c.county_name, cast(c.latitude as float) as latitude, cast(c.longitude as float) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at from cities_points c left join state on state.stusps = c.state_abbrev ) TO '/tmp/cities2.csv' CSV HEADER;
 

@@ -23,3 +23,4 @@ https://csvjson.com/csv2json
 https://bl.ocks.org/duynguyen158/b96fa12ed5590b8435af799728e00a96
 https://medium.com/@louisemoxy/a-simple-way-to-make-d3-js-charts-svgs-responsive-7afb04bc2e4b
 https://www.usgs.gov/core-science-systems/ngp/board-on-geographic-names/download-gnis-data
+https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-postgresql-using-psql/
