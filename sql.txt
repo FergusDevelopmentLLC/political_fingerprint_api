@@ -109,3 +109,20 @@ limit 20;
 \copy ( SELECT cr.id, cr.geoid, cr.name, cr.statefp, cr.countyfp, state.stusps as state_abbrev, state.name as state_name, ST_Y(ST_centroid(cr.geom)) as latitude, ST_X(ST_centroid(cr.geom)) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at FROM county_2018_raw cr INNER JOIN state on state.statefp = cr.statefp order by cr.id ) TO '/tmp/counties.csv' CSV HEADER;
 
 \copy counties FROM '/tmp/counties.csv' DELIMITER ',' CSV HEADER;
+
+FEATURE_ID|FEATURE_NAME|FEATURE_CLASS|STATE_ALPHA|STATE_NUMERIC|COUNTY_NAME|COUNTY_NUMERIC|PRIMARY_LAT_DMS|PRIM_LONG_DMS|PRIM_LAT_DEC|PRIM_LONG_DEC|SOURCE_LAT_DMS|SOURCE_LONG_DMS|SOURCE_LAT_DEC|SOURCE_LONG_DEC|ELEV_IN_M|ELEV_IN_FT|MAP_NAME|DATE_CREATED|DATE_EDITED
+
+FEATURE_ID|FEATURE_NAME|FEATURE_CLASS|STATE_ALPHA|STATE_NUMERIC|COUNTY_NAME|COUNTY_NUMERIC|PRIMARY_LAT_DMS|PRIM_LONG_DMS|PRIM_LAT_DEC|PRIM_LONG_DEC|SOURCE_LAT_DMS|SOURCE_LONG_DMS|SOURCE_LAT_DEC|SOURCE_LONG_DEC|ELEV_IN_M|ELEV_IN_FT|MAP_NAME|DATE_CREATED|DATE_EDITED
+
+https://www.usgs.gov/core-science-systems/ngp/board-on-geographic-names/download-gnis-data
+\copy national FROM '/tmp/national.txt' WITH  FORMAT CSV, DELIMITER '|', HEADER TRUE;
+
+CREATE TABLE national_raw (feature_id integer,feature_name varchar,feature_class varchar,state_alpha varchar,state_numeric varchar,county_name varchar,county_numeric varchar,primary_lat_dms varchar,prim_long_dms varchar,prim_lat_dec varchar,prim_long_dec varchar,source_lat_dms varchar,source_long_dms varchar,source_lat_dec varchar,source_long_dec varchar,elev_in_m varchar,elev_in_ft varchar,map_name varchar,date_created varchar,date_edited varchar);
+copy national_raw FROM '/tmp/national.txt' DELIMITER '|' CSV;
+
+
+\copy ( SELECT cr.id, cr.geoid, cr.name, cr.statefp, cr.countyfp, state.stusps as state_abbrev, state.name as state_name, ST_Y(ST_centroid(cr.geom)) as latitude, ST_X(ST_centroid(cr.geom)) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at FROM county_2018_raw cr INNER JOIN state on state.statefp = cr.statefp order by cr.id ) TO '/tmp/counties.csv' CSV HEADER;
+
+copy ( select feature_id, feature_name as name, state_alpha as state_abbrev, state_numeric, county_name, county_numeric, prim_lat_dec as latitude, prim_long_dec as longitude from national_raw where feature_class = 'Populated Place' order by feature_id ) TO '/tmp/cities.csv' CSV HEADER;
+
+

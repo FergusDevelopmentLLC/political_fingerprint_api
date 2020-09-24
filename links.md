@@ -19,3 +19,7 @@ https://stackoverflow.com/questions/12966638/how-to-calculate-the-distance-betwe
 https://postgis.net/install/
 https://catalog.data.gov/dataset/tiger-line-shapefile-2018-nation-u-s-116th-congressional-district-national  
 https://careerkarma.com/blog/ruby-each-with-index/
+https://csvjson.com/csv2json
+https://bl.ocks.org/duynguyen158/b96fa12ed5590b8435af799728e00a96
+https://medium.com/@louisemoxy/a-simple-way-to-make-d3-js-charts-svgs-responsive-7afb04bc2e4b
+https://www.usgs.gov/core-science-systems/ngp/board-on-geographic-names/download-gnis-data

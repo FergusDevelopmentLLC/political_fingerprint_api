@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :cities
   resources :counties
   resources :test_results
   resources :ideologies
