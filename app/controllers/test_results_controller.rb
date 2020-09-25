@@ -85,7 +85,10 @@ class TestResultsController < ApplicationController
       tr["url"] = test_result.url
 
       if(test_result.respond_to?(:county))
-        tr["location"] = "#{test_result.county.name} County, #{test_result.county.state_abbrev}"
+        tr["name"] = "#{test_result.county.name}"
+        tr["id"] = test_result.county.geoid
+        tr["state_abbrev"] = test_result.county.state_abbrev
+        tr["state_name"] = test_result.county.state_name
       end
       
       tr["economic"] = test_result["economic"]
