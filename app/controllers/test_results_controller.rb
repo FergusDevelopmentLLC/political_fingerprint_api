@@ -81,8 +81,9 @@ class TestResultsController < ApplicationController
     def anonymize(test_result)
       tr = {}
 
-      tr["id"] = test_result["id"]
+      tr["id"] = test_result.id
       tr["url"] = test_result.url
+      tr["question_version"] = test_result.question_version
 
       if(test_result.respond_to?(:county))
         tr["name"] = "#{test_result.county.name}"
