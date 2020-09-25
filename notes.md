@@ -114,3 +114,11 @@ end
 28. $ RAILS_ENV=development rails generate migration add_county_id_to_test_results county_id:integer
 29. $ RAILS_ENV=development rake db:migrate
 ===========================================
+30. $ RAILS_ENV=development rails generate migration RemoveCountryFromTestResults country:string
+31. $ RAILS_ENV=development rails generate migration RemoveCountryNameFromTestResults country_name:string
+32. $ RAILS_ENV=development rails generate migration RemoveRegionFromTestResults region:string
+33. $ RAILS_ENV=development rails generate migration RemoveCityFromTestResults city:string
+34. $ RAILS_ENV=development rails generate migration RemoveLatitudeFromTestResults latitude:float
+35. $ RAILS_ENV=development rails generate migration RemoveLongitudeFromTestResults longitude:float
+29. $ RAILS_ENV=development rake db:migrate
+===========================================
