@@ -110,3 +110,7 @@ end
 ===========================================
 27. $ RAILS_ENV=development rails g scaffold City name:string state_abbrev:string state_name:string county_name:string latitude:float longitude:float
 26. $ RAILS_ENV=development rake db:migrate
+===========================================
+28. $ RAILS_ENV=development rails generate migration add_county_id_to_test_results county_id:integer
+29. $ RAILS_ENV=development rake db:migrate
+===========================================

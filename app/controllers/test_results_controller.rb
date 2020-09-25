@@ -31,29 +31,13 @@ class TestResultsController < ApplicationController
     # save geolocation info for the test taker (uses ipinfo)
     handler = IPinfo::create(ENV["IPINFO_TOKEN"])
     details = handler.details(request.remote_ip.to_str)
-    
+
     if details.respond_to?(:country)
       @test_result.country = details.country
     end
 
     if details.respond_to?(:country_name)
       @test_result.country_name = details.country_name
-    end
-
-    if details.respond_to?(:region)
-      @test_result.region = details.region
-    end
-
-    if details.respond_to?(:city)
-      @test_result.city = details.city
-    end
-
-    if details.respond_to?(:latitude)
-      @test_result.latitude = details.latitude
-    end
-
-    if details.respond_to?(:longitude)
-      @test_result.longitude = details.longitude
     end
 
     if @test_result.save
