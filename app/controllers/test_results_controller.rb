@@ -31,13 +31,18 @@ class TestResultsController < ApplicationController
     # save geolocation info for the test taker (uses ipinfo)
     handler = IPinfo::create(ENV["IPINFO_TOKEN"])
     details = handler.details(request.remote_ip.to_str)
+    
+    if details.respond_to?(:city) and details.respond_to?(:region)
 
-    if details.respond_to?(:country)
-      @test_result.country = details.country
-    end
+      city = City.find_by(name: details.city, state_name: details.region)
+      
+      if city
+        county = County.find_by(name: city.county_name, state_abbrev: city.state_abbrev)
+        if county
+          @test_result.county = county
+        end
+      end
 
-    if details.respond_to?(:country_name)
-      @test_result.country_name = details.country_name
     end
 
     if @test_result.save
@@ -45,6 +50,7 @@ class TestResultsController < ApplicationController
     else
       render json: @test_result.errors, status: :unprocessable_entity
     end
+
   end
 
   # PATCH/PUT /test_results/1
@@ -74,14 +80,13 @@ class TestResultsController < ApplicationController
 
     def anonymize(test_result)
       tr = {}
-      tr["id"] = test_result["id"]
 
+      tr["id"] = test_result["id"]
       tr["url"] = test_result.url
-      tr["location"] = test_result.location
-      tr["country"] = test_result["country"]
-      tr["country_name"] = test_result["country_name"]
-      tr["latitude"] = test_result["latitude"]
-      tr["longitude"] = test_result["longitude"]
+
+      if(test_result.respond_to?(:county))
+        tr["location"] = "#{test_result.county.name} County, #{test_result.county.state_abbrev}"
+      end
       
       tr["economic"] = test_result["economic"]
       tr["diplomatic"] = test_result["diplomatic"]
@@ -91,6 +96,4 @@ class TestResultsController < ApplicationController
       tr
     end
 
-    
-    
 end

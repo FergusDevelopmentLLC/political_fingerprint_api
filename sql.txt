@@ -166,3 +166,29 @@ select * from state;
 
 copy ( select c.id, c.name, c.state_abbrev, state.name as state_name, c.county_name, cast(c.latitude as float) as latitude, cast(c.longitude as float) as longitude, NOW()::timestamp as created_at, NOW()::timestamp as updated_at from cities_points c left join state on state.stusps = c.state_abbrev ) TO '/tmp/cities2.csv' CSV HEADER;
 
+select * from test_results order by id;
+
+delete from test_results where id > 10;
+
+select * 
+from cities 
+left join counties on counties.state_name = cities.state_name and counties.name = cities.county_name;
+where name = 'Euless'
+and state_name = 'Texas';
+
+select cities.id, cities.name, cities.state_abbrev, cities.state_name, counties.id as county_id, counties.name as county_name, counties.geoid
+from cities 
+left join counties on counties.state_name = cities.state_name and counties.name = cities.county_name
+where cities.name = 'Astoria'
+and cities.state_name = 'New York';
+
+update test_results set county_id = 2406 where id = 1;
+update test_results set county_id = 469 where id = 2;
+update test_results set county_id = 581 where id = 3;
+update test_results set county_id = 714 where id = 4;
+update test_results set county_id = 49 where id = 5;
+update test_results set county_id = 469 where id = 6;
+update test_results set county_id = 2406 where id = 7;
+update test_results set county_id = 469 where id = 8;
+update test_results set county_id = 619 where id = 9;
+update test_results set county_id = 170 where id = 10;
