@@ -86,7 +86,7 @@ class TestResultsController < ApplicationController
       tr["question_version"] = test_result.question_version
 
       if(test_result.respond_to?(:county))
-        tr["name"] = "#{test_result.county.name}"
+        tr["name"] = "#{test_result.county.name} County"
         tr["id"] = test_result.county.geoid
         tr["state_abbrev"] = test_result.county.state_abbrev
         tr["state_name"] = test_result.county.state_name
