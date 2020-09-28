@@ -71,18 +71,24 @@ class TestResultsController < ApplicationController
     
     trs = []
     County.all.each.with_index(1) {|county, index|
-      tr = TestResult.new()
-      tr.id = index
-      tr.question_version = rand(1..2)
-      tr.economic = rand(1..99)
-      tr.diplomatic = rand(1..99)
-      tr.civil = rand(1..99)
-      tr.societal = rand(1..99)
-      tr.name = `#{county.name} County`
-      tr.state_abbrev = county.state_abbrev
-      tr.state_name = county.state_name
-      tr.created_at = DateTime.now
-      tr.updated_at = DateTime.now
+      tr = {}
+      tr["id"] = index
+      tr["question_version"] = rand(1..2)
+      tr["economic"] = rand(1..99)
+      tr["diplomatic"] = rand(1..99)
+
+      if tr["question_version"] == 1
+        tr["civil"] = rand(1..99)
+        tr["societal"] = rand(1..99)
+      else
+        tr["civil"] = 50
+        tr["societal"] = 50
+      end
+
+      tr["url"] = "#{ENV['URL_PREFIX']}results.html?e=#{tr["economic"]}&d=#{tr["diplomatic"]}&g=#{tr["civil"]}&s=#{tr["societal"]}"
+      tr["name"] = "#{county.name} County"
+      tr["state_abbrev"] = county.state_abbrev
+      tr["state_name"] = county.state_name
       trs.push(tr)
     }
     render json: trs
