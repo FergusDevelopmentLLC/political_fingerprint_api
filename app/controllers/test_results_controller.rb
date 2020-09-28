@@ -7,20 +7,20 @@ class TestResultsController < ApplicationController
     # @test_results = TestResult.all
     # render json: @test_results
 
-    @test_results = TestResult.all
+    # @test_results = TestResult.all
     
-    trs = @test_results.map { |test_result| 
-      tr = anonymize(test_result)
-    }.sort_by { |tr| tr["id"] }
+    # trs = @test_results.map { |test_result| 
+    #   tr = anonymize(test_result)
+    # }.sort_by { |tr| tr["id"] }
 
-    render json: trs
+    # render json: trs
   end
 
   # GET /test_results/1
   def show
     # render json: @test_result
-    tr = anonymize(@test_result)
-    render json: tr
+    # tr = anonymize(@test_result)
+    # render json: tr
   end
 
   # POST /test_results
@@ -67,25 +67,33 @@ class TestResultsController < ApplicationController
     # @test_result.destroy
   end
 
+  def averaged_by_county
+
+    sql = %{
+      select counties.geoid as id, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County'), counties.state_abbrev, counties.state_name
+      from test_results
+      join counties on counties.id = test_results.county_id
+      group by county_id, counties.geoid, counties.name, counties.state_abbrev, counties.state_name
+      order by county_id;
+    }
+    
+    averaged = ActiveRecord::Base.connection.execute(sql)
+    render json: averaged
+
+  end
+
   def fake
     
     trs = []
     County.all.each.with_index(0) {|county, index|
+      
       tr = {}
+      
       tr["id"] = county.geoid
-      tr["question_version"] = rand(1..2)
       tr["economic"] = rand(1..99)
       tr["diplomatic"] = rand(1..99)
-
-      if tr["question_version"] == 1
-        tr["civil"] = rand(1..99)
-        tr["societal"] = rand(1..99)
-      else
-        tr["civil"] = 50
-        tr["societal"] = 50
-      end
-
-      tr["url"] = "#{ENV['URL_PREFIX']}results.html?e=#{tr["economic"]}&d=#{tr["diplomatic"]}&g=#{tr["civil"]}&s=#{tr["societal"]}"
+      tr["civil"] = rand(1..99)
+      tr["societal"] = rand(1..99)
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name

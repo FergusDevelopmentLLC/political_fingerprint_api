@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   get 'questions/by_version/:version', to: 'questions#by_version'
 
+  get 'test_results_averaged', to: 'test_results#averaged_by_county'
+
   get 'test_results_fake/:limit', to: 'test_results#fake'
 
 end
