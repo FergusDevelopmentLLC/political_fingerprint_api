@@ -70,7 +70,7 @@ class TestResultsController < ApplicationController
   def averaged_by_county
 
     sql = %{
-      select counties.geoid as id, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as county, counties.state_abbrev, counties.state_name
+      select counties.geoid as id, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as name, counties.state_abbrev, counties.state_name
       from test_results
       join counties on counties.id = test_results.county_id
       group by county_id, counties.geoid, counties.name, counties.state_abbrev, counties.state_name
