@@ -70,7 +70,7 @@ class TestResultsController < ApplicationController
   def fake
     
     trs = []
-    County.all.each.with_index(1) {|county, index|
+    County.all.each.with_index(0) {|county, index|
       tr = {}
       tr["id"] = county.geoid
       tr["question_version"] = rand(1..2)
@@ -89,8 +89,16 @@ class TestResultsController < ApplicationController
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name
-      trs.push(tr)
+
+      if index < params[:limit].to_i
+        trs.push(tr)
+      else
+        break
+      end
     }
+
+    trs.shuffle
+    
     render json: trs
 
   end
