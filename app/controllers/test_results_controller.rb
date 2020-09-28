@@ -72,7 +72,7 @@ class TestResultsController < ApplicationController
     trs = []
     County.all.each.with_index(1) {|county, index|
       tr = {}
-      tr["id"] = index
+      tr["id"] = county.geoid
       tr["question_version"] = rand(1..2)
       tr["economic"] = rand(1..99)
       tr["diplomatic"] = rand(1..99)
