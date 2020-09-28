@@ -78,7 +78,9 @@ class TestResultsController < ApplicationController
       tr.diplomatic = rand(1..99)
       tr.civil = rand(1..99)
       tr.societal = rand(1..99)
-      tr.county_id = county.geoid
+      tr.name = `#{county.name} County`
+      tr.state_abbrev = county.state_abbrev
+      tr.state_name = county.state_name
       tr.created_at = DateTime.now
       tr.updated_at = DateTime.now
       trs.push(tr)
