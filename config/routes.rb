@@ -19,4 +19,7 @@ Rails.application.routes.draw do
   end
 
   get 'questions/by_version/:version', to: 'questions#by_version'
+
+  get 'test_results_fake', to: 'test_results#fake'
+
 end

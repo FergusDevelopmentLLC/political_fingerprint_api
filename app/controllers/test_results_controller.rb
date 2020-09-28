@@ -67,6 +67,26 @@ class TestResultsController < ApplicationController
     # @test_result.destroy
   end
 
+  def fake
+    
+    trs = []
+    County.all.each.with_index(1) {|county, index|
+      tr = TestResult.new()
+      tr.id = index
+      tr.question_version = rand(1..2)
+      tr.economic = rand(1..99)
+      tr.diplomatic = rand(1..99)
+      tr.civil = rand(1..99)
+      tr.societal = rand(1..99)
+      tr.county_id = county.geoid
+      tr.created_at = DateTime.now
+      tr.updated_at = DateTime.now
+      trs.push(tr)
+    }
+    render json: trs
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_test_result
