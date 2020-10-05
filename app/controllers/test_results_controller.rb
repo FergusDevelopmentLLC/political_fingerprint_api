@@ -8,7 +8,6 @@ class TestResultsController < ApplicationController
     # render json: @test_results
 
     # @test_results = TestResult.all
-    
     # trs = @test_results.map { |test_result| 
     #   tr = anonymize(test_result)
     # }.sort_by { |tr| tr["id"] }
@@ -84,12 +83,13 @@ class TestResultsController < ApplicationController
 
   def fake
     
+    counties = County.limit(params[:limit].to_i).order("RANDOM()")
+
     trs = []
-    County.all.each.with_index(0) {|county, index|
-      
+    counties.each.with_index(1) {|county, index|
       tr = {}
-      
-      tr["id"] = county.geoid
+      tr["id"] = index
+      tr["geoid"] = county.geoid
       tr["economic"] = rand(1..99)
       tr["diplomatic"] = rand(1..99)
       tr["civil"] = rand(1..99)
@@ -97,16 +97,9 @@ class TestResultsController < ApplicationController
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name
-
-      if index < params[:limit].to_i
-        trs.push(tr)
-      else
-        break
-      end
+      trs.push(tr)
     }
 
-    trs.shuffle
-    
     render json: trs
 
   end
@@ -130,8 +123,8 @@ class TestResultsController < ApplicationController
       tr["question_version"] = test_result.question_version
 
       if(test_result.respond_to?(:county))
+        tr["geoid"] = test_result.county.geoid
         tr["name"] = "#{test_result.county.name} County"
-        tr["id"] = test_result.county.geoid
         tr["state_abbrev"] = test_result.county.state_abbrev
         tr["state_name"] = test_result.county.state_name
       end
