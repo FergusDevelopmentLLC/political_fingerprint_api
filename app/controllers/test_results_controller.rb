@@ -69,7 +69,7 @@ class TestResultsController < ApplicationController
   def averaged_by_county
 
     sql = %{
-      select counties.geoid as id, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as name, counties.state_abbrev, counties.state_name
+      select counties.geoid, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as name, counties.state_abbrev, counties.state_name
       from test_results
       join counties on counties.id = test_results.county_id
       group by county_id, counties.geoid, counties.name, counties.state_abbrev, counties.state_name
@@ -88,7 +88,6 @@ class TestResultsController < ApplicationController
     trs = []
     counties.each.with_index(1) {|county, index|
       tr = {}
-      tr["id"] = index
       tr["geoid"] = county.geoid
       tr["economic"] = rand(1..99)
       tr["diplomatic"] = rand(1..99)
@@ -118,7 +117,6 @@ class TestResultsController < ApplicationController
     def anonymize(test_result)
       tr = {}
 
-      tr["id"] = test_result.id
       tr["url"] = test_result.url
       tr["question_version"] = test_result.question_version
 
