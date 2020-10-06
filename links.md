@@ -26,3 +26,4 @@ https://www.usgs.gov/core-science-systems/ngp/board-on-geographic-names/download
 https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-postgresql-using-psql/
 https://stackoverflow.com/questions/2831059/how-to-drop-columns-using-rails-migration
 https://stackoverflow.com/questions/4834809/adding-a-column-to-an-existing-table-in-a-rails-migration/4834906
+https://stackoverflow.com/questions/5778295/how-to-express-infinity-in-ruby

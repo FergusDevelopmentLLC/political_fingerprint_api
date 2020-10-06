@@ -72,12 +72,19 @@ class TestResultsController < ApplicationController
       select counties.geoid, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as name, counties.state_abbrev, counties.state_name
       from test_results
       join counties on counties.id = test_results.county_id
-      group by county_id, counties.geoid, counties.name, counties.state_abbrev, counties.state_name
-      order by county_id;
+      group by counties.geoid, counties.name, counties.state_abbrev, counties.state_name
+      order by counties.geoid;
     }
     
     averaged = ActiveRecord::Base.connection.execute(sql)
-    render json: averaged
+    
+    tras = []
+    averaged.each.with_index(1) {|tra, index|
+      TestResult.populate_matches_for(tra)
+      tras.push(tra)
+    }
+
+    render json: tras
 
   end
 
@@ -96,6 +103,9 @@ class TestResultsController < ApplicationController
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name
+      
+      TestResult.populate_matches_for(tr)
+      
       trs.push(tr)
     }
 
@@ -134,5 +144,7 @@ class TestResultsController < ApplicationController
 
       tr
     end
+
+    
 
 end
