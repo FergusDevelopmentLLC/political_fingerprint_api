@@ -27,3 +27,7 @@ https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-post
 https://stackoverflow.com/questions/2831059/how-to-drop-columns-using-rails-migration
 https://stackoverflow.com/questions/4834809/adding-a-column-to-an-existing-table-in-a-rails-migration/4834906
 https://stackoverflow.com/questions/5778295/how-to-express-infinity-in-ruby
+
+https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Rb-star.svg/75px-Rb-star.svg.png
+https://stackoverflow.com/questions/16699877/rails-optional-belongs-to
+https://stackoverflow.com/questions/13076593/ruby-big-decimal-rounding-with-fixed-number

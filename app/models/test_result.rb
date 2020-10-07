@@ -6,7 +6,7 @@ class TestResult < ApplicationRecord
   end
 
   def self.populate_matches_for(test_result_hash) 
-      
+
     def self.getLabel(val, ary) 
       if val > 100 
         return null
@@ -62,10 +62,10 @@ class TestResult < ApplicationRecord
       liberty = test_result_hash["civil"]
       progress = test_result_hash["societal"]
 
-      wealth = ('%.1f' % (100 - equality)).to_f
-      might = ('%.1f' % (100 - peace)).to_f
-      authority = ('%.1f' % (100 - liberty)).to_f
-      tradition = ('%.1f' % (100 - progress)).to_f
+      wealth = ('%.1f' % (100 - equality))
+      might = ('%.1f' % (100 - peace))
+      authority = ('%.1f' % (100 - liberty))
+      tradition = ('%.1f' % (100 - progress))
 
       dist = 0
       dist += ((ideology.economic_effect - equality).abs()) ** 2

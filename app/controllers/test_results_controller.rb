@@ -113,6 +113,20 @@ class TestResultsController < ApplicationController
 
   end
 
+  def get_ideology_matches
+    
+    tr = {}
+    tr["economic"] = params[:economic].to_f
+    tr["diplomatic"] = params[:diplomatic].to_f
+    tr["civil"] = params[:civil].to_f
+    tr["societal"] = params[:societal].to_f
+
+    TestResult.populate_matches_for(tr)
+
+    render json: tr
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_test_result
@@ -145,6 +159,4 @@ class TestResultsController < ApplicationController
       tr
     end
 
-    
-
-end
+  end

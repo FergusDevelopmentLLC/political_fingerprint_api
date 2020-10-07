@@ -168,7 +168,8 @@ copy ( select c.id, c.name, c.state_abbrev, state.name as state_name, c.county_n
 
 select * from test_results order by id;
 
-delete from test_results where id > 10;
+delete from test_results where id > 12;
+delete from question_feedbacks where id > 691;
 
 select * 
 from cities 
