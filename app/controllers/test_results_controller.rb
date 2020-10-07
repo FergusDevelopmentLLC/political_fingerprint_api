@@ -109,13 +109,25 @@ class TestResultsController < ApplicationController
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name
+      tr["tr_count"] = rand(1..50)
 
       TestResult.populate_matches_for(tr)
-      
+
       trs.push(tr)
     }
 
-    render json: trs
+    # https://stackoverflow.com/questions/39542167/max-value-within-array-of-objects
+    # max = averaged.map {|tr| tr["tr_count"]}.max.to_i
+    # min = averaged.map {|tr| tr["tr_count"]}.min.to_i
+    total = trs.sum {|tr| tr["tr_count"]}.to_i
+
+    trs_with_pct = trs.map {|tr|
+      tr["pct_of_test_results"] = tr["tr_count"].to_f / total
+      tr.delete("tr_count")
+      tr
+    }
+
+    render json: trs_with_pct
 
   end
 
