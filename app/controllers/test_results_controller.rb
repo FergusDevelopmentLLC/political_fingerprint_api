@@ -109,7 +109,7 @@ class TestResultsController < ApplicationController
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name
-      tr["tr_count"] = rand(1..50)
+      tr["tr_count"] = rand(1..1000)
 
       TestResult.populate_matches_for(tr)
 
