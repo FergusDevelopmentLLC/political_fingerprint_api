@@ -76,14 +76,13 @@ class TestResultsController < ApplicationController
       order by counties.geoid;
     }
     averaged = ActiveRecord::Base.connection.execute(sql)
-    tras = averaged.map {|tra|
-      TestResult.populate_matches_for(tra)
-    }
+    
+    tras = averaged.map {|tra| TestResult.populate_matches_for(tra) }
 
     # https://stackoverflow.com/questions/39542167/max-value-within-array-of-objects
-    # max = averaged.map{ |tr| tr["tr_count"] }.max.to_i
-    # min = averaged.map{ |tr| tr["tr_count"] }.min.to_i
-    total = averaged.sum{|tr| tr["tr_count"]}.to_i
+    # max = averaged.map {|tr| tr["tr_count"]}.max.to_i
+    # min = averaged.map {|tr| tr["tr_count"]}.min.to_i
+    total = averaged.sum {|tr| tr["tr_count"]}.to_i
 
     tras_with_pct = tras.map {|tra|
       tra["pct_of_test_results"] = tra["tr_count"].to_f / total
@@ -110,7 +109,9 @@ class TestResultsController < ApplicationController
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name
+
       TestResult.populate_matches_for(tr)
+      
       trs.push(tr)
     }
 
