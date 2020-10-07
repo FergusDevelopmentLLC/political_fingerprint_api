@@ -66,6 +66,10 @@ class TestResultsController < ApplicationController
     # @test_result.destroy
   end
 
+  def add_pct_height_to (test_result_hash)
+
+  end
+
   def averaged_by_county
 
     sql = %{
@@ -77,20 +81,20 @@ class TestResultsController < ApplicationController
     }
     averaged = ActiveRecord::Base.connection.execute(sql)
     
-    tras = averaged.map {|tra| TestResult.populate_matches_for(tra) }
+    trs = averaged.map {|tr| TestResult.populate_matches_for(tr) }
 
     # https://stackoverflow.com/questions/39542167/max-value-within-array-of-objects
-    # max = averaged.map {|tr| tr["tr_count"]}.max.to_i
+    max = trs.map {|tr| tr["tr_count"]}.max.to_i
     # min = averaged.map {|tr| tr["tr_count"]}.min.to_i
-    total = averaged.sum {|tr| tr["tr_count"]}.to_i
+    # total = trs.sum {|tr| tr["tr_count"]}.to_i
 
-    tras_with_pct = tras.map {|tra|
-      tra["pct_of_test_results"] = tra["tr_count"].to_f / total
-      tra.delete("tr_count")
-      tra
+    trs_with_pct = trs.map {|tr|
+      tr["pct_height"] = tr["tr_count"].to_f / max
+      tr.delete("tr_count")
+      tr
     }
 
-    render json: tras_with_pct
+    render json: trs_with_pct
 
   end
 
@@ -109,7 +113,7 @@ class TestResultsController < ApplicationController
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name
-      tr["tr_count"] = rand(1..1000)
+      tr["tr_count"] = rand(1..10)
 
       TestResult.populate_matches_for(tr)
 
@@ -117,12 +121,12 @@ class TestResultsController < ApplicationController
     }
 
     # https://stackoverflow.com/questions/39542167/max-value-within-array-of-objects
-    # max = averaged.map {|tr| tr["tr_count"]}.max.to_i
+    max = trs.map {|tr| tr["tr_count"]}.max.to_i
     # min = averaged.map {|tr| tr["tr_count"]}.min.to_i
-    total = trs.sum {|tr| tr["tr_count"]}.to_i
+    # total = trs.sum {|tr| tr["tr_count"]}.to_i
 
     trs_with_pct = trs.map {|tr|
-      tr["pct_of_test_results"] = tr["tr_count"].to_f / total
+      tr["pct_height"] = tr["tr_count"].to_f / max
       tr.delete("tr_count")
       tr
     }
