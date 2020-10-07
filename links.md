@@ -31,3 +31,5 @@ https://stackoverflow.com/questions/5778295/how-to-express-infinity-in-ruby
 https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Rb-star.svg/75px-Rb-star.svg.png
 https://stackoverflow.com/questions/16699877/rails-optional-belongs-to
 https://stackoverflow.com/questions/13076593/ruby-big-decimal-rounding-with-fixed-number
+
+https://stackoverflow.com/questions/39542167/max-value-within-array-of-objects

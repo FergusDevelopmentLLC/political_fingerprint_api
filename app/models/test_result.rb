@@ -7,7 +7,7 @@ class TestResult < ApplicationRecord
 
   def self.populate_matches_for(test_result_hash) 
 
-    def self.getLabel(val, ary) 
+    def self.get_label(val, ary) 
       if val > 100 
         return null
       elsif val > 90
@@ -34,10 +34,10 @@ class TestResult < ApplicationRecord
     civilArray      = ["Anarchist", "Libertarian", "Liberal", "Moderate", "Statist", "Authoritarian", "Totalitarian"]
     societalArray   = ["Revolutionary", "Very Progressive", "Progressive", "Neutral", "Traditional", "Very Traditional", "Reactionary"]
 
-    test_result_hash["economic_match"] = getLabel(test_result_hash["economic"], econonmicArray)
-    test_result_hash["diplomatic_match"] = getLabel(test_result_hash["diplomatic"], diplomaticArray)
-    test_result_hash["civil_match"] = getLabel(test_result_hash["civil"], civilArray)
-    test_result_hash["societal_match"] = getLabel(test_result_hash["societal"], societalArray)
+    test_result_hash["economic_match"] = get_label(test_result_hash["economic"], econonmicArray)
+    test_result_hash["diplomatic_match"] = get_label(test_result_hash["diplomatic"], diplomaticArray)
+    test_result_hash["civil_match"] = get_label(test_result_hash["civil"], civilArray)
+    test_result_hash["societal_match"] = get_label(test_result_hash["societal"], societalArray)
 
     test_result_hash["ideology_match"] = TestResult.get_ideology_for(test_result_hash)
     

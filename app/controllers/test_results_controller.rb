@@ -69,22 +69,29 @@ class TestResultsController < ApplicationController
   def averaged_by_county
 
     sql = %{
-      select counties.geoid, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as name, counties.state_abbrev, counties.state_name
+      select counties.geoid, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as name, counties.state_abbrev, counties.state_name, count(*) as tr_count
       from test_results
       join counties on counties.id = test_results.county_id
       group by counties.geoid, counties.name, counties.state_abbrev, counties.state_name
       order by counties.geoid;
     }
-    
     averaged = ActiveRecord::Base.connection.execute(sql)
-    
-    tras = []
-    averaged.each.with_index(1) {|tra, index|
+    tras = averaged.map {|tra|
       TestResult.populate_matches_for(tra)
-      tras.push(tra)
     }
 
-    render json: tras
+    # https://stackoverflow.com/questions/39542167/max-value-within-array-of-objects
+    # max = averaged.map{ |tr| tr["tr_count"] }.max.to_i
+    # min = averaged.map{ |tr| tr["tr_count"] }.min.to_i
+    total = averaged.sum{|tr| tr["tr_count"]}.to_i
+
+    tras_with_pct = tras.map {|tra|
+      tra["pct_of_test_results"] = tra["tr_count"].to_f / total
+      tra.delete("tr_count")
+      tra
+    }
+
+    render json: tras_with_pct
 
   end
 
@@ -103,9 +110,7 @@ class TestResultsController < ApplicationController
       tr["name"] = "#{county.name} County"
       tr["state_abbrev"] = county.state_abbrev
       tr["state_name"] = county.state_name
-      
       TestResult.populate_matches_for(tr)
-      
       trs.push(tr)
     }
 
