@@ -26,4 +26,6 @@ Rails.application.routes.draw do
 
   get 'test_result_ideology/:economic/:diplomatic/:civil/:societal', to: 'test_results#get_ideology_matches'
 
+  get 'counties_by_state', to: 'counties#counties_by_state'
+
 end

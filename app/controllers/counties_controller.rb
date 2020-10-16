@@ -4,7 +4,6 @@ class CountiesController < ApplicationController
   # GET /counties
   def index
     @counties = County.all
-
     render json: @counties
   end
 
@@ -36,6 +35,35 @@ class CountiesController < ApplicationController
   # DELETE /counties/1
   def destroy
     # @county.destroy
+  end
+
+  def counties_by_state
+
+    counties = County.all
+    states = counties.group_by{ |county| [county.state_name, county.state_abbrev] }.sort_by{ |state| state }
+    
+    return_array = []
+    
+    states.each { |state|
+      st = {}
+      st['name'] = state[0][0]
+      st['abbrev'] = state[0][1]
+      st['counties'] = []
+      counties.each { |county| 
+        if(county.state_name == state[0][0])
+          c = {}
+          c['name'] = county.name
+          c['geoid'] = county.geoid
+          st['counties'].push(c)
+        end
+      }
+
+      st['counties'] = st['counties'].sort_by { |county| county['name'] }
+      
+      return_array.push(st)
+    }
+    
+    render json: return_array
   end
 
   private
