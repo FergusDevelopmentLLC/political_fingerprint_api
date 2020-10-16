@@ -50,7 +50,7 @@ class TestResultsController < ApplicationController
     end
 
     if @test_result.save
-      render json: @test_result.to_json(include: { county: { except: [:countyfp, :id, :latitude, :longitude, :state_abbrev, :state_name, :statefp, :created_at, :updated_at] } }, :except => [:county_id, :created_at, :updated_at])
+      render json: @test_result.to_json(include: { county: { except: [:countyfp, :id, :latitude, :longitude, :statefp, :created_at, :updated_at] } }, :except => [:county_id, :created_at, :updated_at])
     else
       render json: @test_result.errors, status: :unprocessable_entity
     end
