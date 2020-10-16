@@ -44,8 +44,13 @@ class TestResultsController < ApplicationController
 
     end
 
+    # hack for localhost
+    if request.remote_ip.to_str == "127.0.0.1"
+      @test_result.county = County.find_by(name: "Denver", state_abbrev: "CO")
+    end
+
     if @test_result.save
-      render json: @test_result, status: :created, location: @test_result
+      render json: @test_result.to_json(include: { county: { except: [:countyfp, :id, :latitude, :longitude, :state_abbrev, :state_name, :statefp, :created_at, :updated_at] } }, :except => [:county_id, :created_at, :updated_at])
     else
       render json: @test_result.errors, status: :unprocessable_entity
     end
