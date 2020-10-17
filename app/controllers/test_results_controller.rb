@@ -44,9 +44,9 @@ class TestResultsController < ApplicationController
 
     end
 
-    # hack for localhost
+    # TODO: do this better, somehow. hack for localhost, because from there (dev), details doesn't get popuplated
     if request.remote_ip.to_str == "127.0.0.1"
-      @test_result.county = County.find_by(name: "Denver", state_abbrev: "CO")
+      @test_result.county = County.find_by(name: "Eastern", state_abbrev: "AS")
     end
 
     if @test_result.save
