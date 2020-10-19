@@ -31,12 +31,12 @@ class TestResultsController < ApplicationController
     handler = IPinfo::create(ENV["IPINFO_TOKEN"])
     details = handler.details(request.remote_ip.to_str)
     
-    logger.debug("===================================================")
-    logger.debug("request.remote_ip.to_str: #{request.remote_ip.to_str}")
-    logger.debug("details: #{details.to_s}")
-    logger.debug("city: #{details.respond_to?(:city)}")
-    logger.debug("region: #{details.respond_to?(:region)}")
-    logger.debug("===================================================")
+    # logger.debug("===================================================")
+    # logger.debug("request.remote_ip.to_str: #{request.remote_ip.to_str}")
+    # logger.debug("details: #{details.to_s}")
+    # logger.debug("city: #{details.respond_to?(:city)}")
+    # logger.debug("region: #{details.respond_to?(:region)}")
+    # logger.debug("===================================================")
 
     if details.respond_to?(:city) and details.respond_to?(:region)
 
