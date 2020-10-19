@@ -31,6 +31,13 @@ class TestResultsController < ApplicationController
     handler = IPinfo::create(ENV["IPINFO_TOKEN"])
     details = handler.details(request.remote_ip.to_str)
     
+    logger.debug("===================================================")
+    logger.debug("request.remote_ip.to_str: #{request.remote_ip.to_str}")
+    logger.debug("details: #{details.to_s}")
+    logger.debug("city: #{details.respond_to?(:city)}")
+    logger.debug("region: #{details.respond_to?(:region)}")
+    logger.debug("===================================================")
+
     if details.respond_to?(:city) and details.respond_to?(:region)
 
       city = City.find_by(name: details.city, state_name: details.region)
@@ -41,7 +48,7 @@ class TestResultsController < ApplicationController
           @test_result.county = county
         end
       end
-      
+
     else
       # TODO: do this better, somehow. hack for localhost, because from there (dev), details doesn't get popuplated
       @test_result.county = County.find_by(name: "Eastern", state_abbrev: "AS")
