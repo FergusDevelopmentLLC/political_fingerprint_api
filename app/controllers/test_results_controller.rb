@@ -66,11 +66,11 @@ class TestResultsController < ApplicationController
   # PATCH/PUT /test_results/1
   def update
     
-    if @test_result.update(test_result_params)
-      render json: @test_result
-    else
-      render json: @test_result.errors, status: :unprocessable_entity
-    end
+    # if @test_result.update(test_result_params)
+    #   render json: @test_result
+    # else
+    #   render json: @test_result.errors, status: :unprocessable_entity
+    # end
 
   end
 
@@ -79,7 +79,18 @@ class TestResultsController < ApplicationController
     # @test_result.destroy
   end
 
-  def add_pct_height_to (test_result_hash)
+  # PATCH/PUT /test_results_check/
+  def test_results_check
+
+    test_result = TestResult.find(params["test_result"]["id"].to_i)
+    test_result.county_id = County.find_by(geoid: params["test_result"]["countyGeoId"].to_s).id
+    test_result.opt_in = !!params["test_result"]["optIn"]
+    
+    if test_result.save
+      render json: test_result
+    else
+      render json: test_result.errors, status: :unprocessable_entity
+    end
 
   end
 
@@ -170,7 +181,7 @@ class TestResultsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def test_result_params
-      params.require(:test_result).permit(:client_ip, :question_version, :economic, :diplomatic, :civil, :societal)
+      params.require(:test_result).permit(:question_version, :economic, :diplomatic, :civil, :societal)
     end
 
     def anonymize(test_result)
