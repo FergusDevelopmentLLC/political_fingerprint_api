@@ -41,14 +41,16 @@ class TestResultsController < ApplicationController
           @test_result.county = county
         end
       end
-
-    end
-
-    # TODO: do this better, somehow. hack for localhost, because from there (dev), details doesn't get popuplated
-    if request.remote_ip.to_str == "127.0.0.1"
+      
+    else
+      # TODO: do this better, somehow. hack for localhost, because from there (dev), details doesn't get popuplated
       @test_result.county = County.find_by(name: "Eastern", state_abbrev: "AS")
     end
 
+    # changes to these only happens on update
+    @test_result.county_override = false
+    @test_result.opt_in = true
+    
     if @test_result.save
       render json: @test_result.to_json(include: { county: { except: [:countyfp, :id, :latitude, :longitude, :statefp, :created_at, :updated_at] } }, :except => [:county_id, :created_at, :updated_at])
     else
@@ -59,11 +61,13 @@ class TestResultsController < ApplicationController
 
   # PATCH/PUT /test_results/1
   def update
-    # if @test_result.update(test_result_params)
-    #   render json: @test_result
-    # else
-    #   render json: @test_result.errors, status: :unprocessable_entity
-    # end
+    
+    if @test_result.update(test_result_params)
+      render json: @test_result
+    else
+      render json: @test_result.errors, status: :unprocessable_entity
+    end
+
   end
 
   # DELETE /test_results/1
