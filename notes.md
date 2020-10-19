@@ -122,3 +122,5 @@ end
 35. $ RAILS_ENV=development rails generate migration RemoveLongitudeFromTestResults longitude:float
 29. $ RAILS_ENV=development rake db:migrate
 ===========================================
+30. $ RAILS_ENV=development rails generate migration add_county_override_to_test_results county_override:boolean
+31. $ RAILS_ENV=development rails generate migration add_opt_in_to_test_results opt_in:boolean
