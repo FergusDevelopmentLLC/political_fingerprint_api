@@ -101,6 +101,7 @@ class TestResultsController < ApplicationController
       select counties.geoid, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as name, counties.state_abbrev, counties.state_name, count(*) as tr_count
       from test_results
       join counties on counties.id = test_results.county_id
+      where test_results.opt_in = true
       group by counties.geoid, counties.name, counties.state_abbrev, counties.state_name
       order by counties.geoid;
     }
