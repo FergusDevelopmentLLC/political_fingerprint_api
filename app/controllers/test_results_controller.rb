@@ -49,9 +49,6 @@ class TestResultsController < ApplicationController
         end
       end
 
-    else
-      # TODO: do this better, somehow. hack for localhost, because from there (dev), details doesn't get popuplated
-      @test_result.county = County.find_by(name: "Eastern", state_abbrev: "AS")
     end
 
     # changes to these only happens on update
