@@ -85,6 +85,7 @@ class TestResultsController < ApplicationController
     test_result = TestResult.find(params["test_result"]["id"].to_i)
     test_result.county_id = County.find_by(geoid: params["test_result"]["countyGeoId"].to_s).id
     test_result.opt_in = !!params["test_result"]["optIn"]
+    test_result.county_override = !!params["test_result"]["countyOverride"]
     
     if test_result.save
       render json: test_result
