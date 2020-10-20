@@ -24,7 +24,12 @@ Rails.application.routes.draw do
 
   get 'test_results_fake/:limit', to: 'test_results#fake'
 
-  get 'test_result_ideology/:economic/:diplomatic/:civil/:societal', to: 'test_results#get_ideology_matches'
+  get 'test_result_ideology/:economic/:diplomatic/:civil/:societal', to: 'test_results#get_ideology_matches', constraints: { 
+    :economic => /[^\/]+/, 
+    :diplomatic => /[^\/]+/,
+    :civil => /[^\/]+/,
+    :societal => /[^\/]+/,
+  }
 
   patch 'test_results_check', to: 'test_results#test_results_check'
 
