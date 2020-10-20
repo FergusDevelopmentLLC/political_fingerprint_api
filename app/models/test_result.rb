@@ -39,7 +39,9 @@ class TestResult < ApplicationRecord
     test_result_hash["civil_match"] = get_label(test_result_hash["civil"], civilArray)
     test_result_hash["societal_match"] = get_label(test_result_hash["societal"], societalArray)
 
-    test_result_hash["ideology_match"] = TestResult.get_ideology_for(test_result_hash)
+    test_result_hash["ideology_match_name"] = TestResult.get_ideology_for(test_result_hash)["name"]
+    test_result_hash["ideology_match_definition"] = TestResult.get_ideology_for(test_result_hash)["definition"]
+    test_result_hash["ideology_match_definition_source"] = TestResult.get_ideology_for(test_result_hash)["definition_source"]
     
     test_result_hash
 
@@ -47,7 +49,7 @@ class TestResult < ApplicationRecord
 
   def self.get_ideology_for(test_result_hash) 
       
-    matched_ideology = nil
+    matched_ideology = {}
 
     ideodist = Float::INFINITY
 
@@ -74,7 +76,9 @@ class TestResult < ApplicationRecord
       dist += ((ideology.societal_effect - progress).abs()) ** 1.73856063
 
       if dist < ideodist
-        matched_ideology = ideology.name
+        matched_ideology["name"] = ideology.name
+        matched_ideology["definition"] = ideology.definition
+        matched_ideology["definition_source"] = ideology.definition_source
         ideodist = dist
       end
 
