@@ -34,10 +34,21 @@ class TestResult < ApplicationRecord
     civilArray      = ["Anarchist", "Libertarian", "Liberal", "Moderate", "Statist", "Authoritarian", "Totalitarian"]
     societalArray   = ["Revolutionary", "Very Progressive", "Progressive", "Neutral", "Traditional", "Very Traditional", "Reactionary"]
 
-    test_result_hash["economic_match"] = get_label(test_result_hash["economic"], econonmicArray)
-    test_result_hash["diplomatic_match"] = get_label(test_result_hash["diplomatic"], diplomaticArray)
-    test_result_hash["civil_match"] = get_label(test_result_hash["civil"], civilArray)
-    test_result_hash["societal_match"] = get_label(test_result_hash["societal"], societalArray)
+    if(test_result_hash["economic"])
+      test_result_hash["economic_match"] = get_label(test_result_hash["economic"], econonmicArray)
+    end
+
+    if(test_result_hash["diplomatic"])
+      test_result_hash["diplomatic_match"] = get_label(test_result_hash["diplomatic"], diplomaticArray)
+    end
+
+    if(test_result_hash["civil"])
+      test_result_hash["civil_match"] = get_label(test_result_hash["civil"], civilArray)
+    end
+    
+    if(test_result_hash["societal"])
+      test_result_hash["societal_match"] = get_label(test_result_hash["societal"], societalArray)
+    end
 
     test_result_hash["ideology_match_name"] = TestResult.get_ideology_for(test_result_hash)["name"]
     test_result_hash["ideology_match_definition"] = TestResult.get_ideology_for(test_result_hash)["definition"]
