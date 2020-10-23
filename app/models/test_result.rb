@@ -59,11 +59,16 @@ class TestResult < ApplicationRecord
 
     Ideology.all.each do |ideology|
       
-      equality = test_result_hash["economic"]
-      peace = test_result_hash["diplomatic"]
-      liberty = test_result_hash["civil"]
-      progress = test_result_hash["societal"]
-
+      equality = 50
+      peace = 50
+      liberty = 50
+      progress = 50
+      
+      if(test_result_hash["economic"]) then equality = test_result_hash["economic"] end
+      if(test_result_hash["diplomatic"]) then peace = test_result_hash["diplomatic"] end
+      if(test_result_hash["civil"]) then liberty = test_result_hash["civil"] end
+      if(test_result_hash["societal"]) then progress = test_result_hash["societal"] end
+      
       wealth = ('%.1f' % (100 - equality))
       might = ('%.1f' % (100 - peace))
       authority = ('%.1f' % (100 - liberty))
