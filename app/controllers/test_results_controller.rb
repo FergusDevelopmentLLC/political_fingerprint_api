@@ -116,7 +116,6 @@ class TestResultsController < ApplicationController
 
     trs_with_pct = trs.map {|tr|
       tr["pct_height"] = tr["tr_count"].to_f / max
-      tr.delete("tr_count")
       tr
     }
 
