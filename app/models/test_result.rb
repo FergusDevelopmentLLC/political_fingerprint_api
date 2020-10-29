@@ -86,10 +86,10 @@ class TestResult < ApplicationRecord
       tradition = ('%.1f' % (100 - progress))
 
       dist = 0
-      dist += ((ideology.economic_effect - equality).abs()) ** 2
-      dist += ((ideology.diplomatic_effect - peace).abs()) ** 1.73856063 
-      dist += ((ideology.government_effect - liberty).abs()) ** 2
-      dist += ((ideology.societal_effect - progress).abs()) ** 1.73856063
+      if(test_result_hash["economic"]) then dist += ((ideology.economic_effect - equality).abs()) ** 2 end
+      if(test_result_hash["diplomatic"]) then dist += ((ideology.diplomatic_effect - peace).abs()) ** 1.73856063 end
+      if(test_result_hash["civil"]) then dist += ((ideology.government_effect - liberty).abs()) ** 2 end
+      if(test_result_hash["societal"]) then dist += ((ideology.societal_effect - progress).abs()) ** 1.73856063 end
 
       if dist < ideodist
         matched_ideology["name"] = ideology.name

@@ -82,16 +82,3 @@ task :truncate_test_results do
   ActiveRecord::Base.connection.execute("TRUNCATE test_results RESTART IDENTITY")
   # RAILS_ENV=development bundle exec rake environment truncate_test_results
 end
-
-# desc 'Populate TestResult locations'
-# task :populate_test_result_locations do
-#   access_token = '742d37bccf1d76'
-#   handler = IPinfo::create(access_token)
-
-#   details = handler.details()
-#   city = details.city # "Emeryville"
-#   loc = details.loc # 37.8342,-122.2900
-  
-#   binding.pry
-#   # RAILS_ENV=development bundle exec rake environment populate_test_result_locations
-# end
