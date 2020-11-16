@@ -3343,3 +3343,12 @@ left join counties_points p on p.geoid = c.geoid
 left join counties_pts_albers a on a.geoid = c.geoid 
 where a.geoid is not null 
 order by c.geoid;
+
+# create version 3 of questions
+insert into question_iterations (question_id, version, content, economic_effect, diplomatic_effect, government_effect, societal_effect, created_at, updated_at)
+(
+	SELECT question_id, CAST('3' AS INTEGER) as version, content, economic_effect, diplomatic_effect, government_effect, societal_effect, now(), now()
+	FROM public.question_iterations
+	where version = 1
+	and id in (89,101,103,87,105,107,71,75,109,61,67,69,31,37,49,39,41,51,5,15,23,9,17,21)
+);

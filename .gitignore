@@ -29,3 +29,7 @@
 /old/*
 secret.txt
 seeds.orig.rb
+
+/twitter_followers/*
+
+*.env
