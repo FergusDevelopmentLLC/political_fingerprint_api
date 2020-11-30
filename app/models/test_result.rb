@@ -1,12 +1,14 @@
 class TestResult < ApplicationRecord
   belongs_to :county, optional: true
+
+  attr_accessor :economic_match, :diplomatic_match, :civil_match, :societal_match, :ideology_match_name, :ideology_match_definition, :ideology_match_definition_source
   
   def url
     "#{ENV['URL_PREFIX']}results.html?e=#{self["economic"]}&d=#{self["diplomatic"]}&g=#{self["civil"]}&s=#{self["societal"]}"
   end
 
-  def self.populate_matches_for(test_result_hash) 
-
+  def set_matches
+    
     def self.get_label(val, ary) 
       if val > 100 
         return null
@@ -34,39 +36,29 @@ class TestResult < ApplicationRecord
     civilArray      = ["Anarchist", "Libertarian", "Liberal", "Moderate", "Statist", "Authoritarian", "Totalitarian"]
     societalArray   = ["Revolutionary", "Very Progressive", "Progressive", "Neutral", "Traditional", "Very Traditional", "Reactionary"]
 
-    if(test_result_hash["economic"])
-      test_result_hash["economic_match"] = get_label(test_result_hash["economic"], econonmicArray)
+    if(self.economic)
+      self.economic_match = get_label(self.economic, econonmicArray)
     end
 
-    if(test_result_hash["diplomatic"])
-      test_result_hash["diplomatic_match"] = get_label(test_result_hash["diplomatic"], diplomaticArray)
+    if(self.diplomatic)
+      self.diplomatic_match = get_label(self.diplomatic, diplomaticArray)
     end
 
-    if(test_result_hash["civil"])
-      test_result_hash["civil_match"] = get_label(test_result_hash["civil"], civilArray)
+    if(self.civil)
+      self.civil_match = get_label(self.civil, civilArray)
     end
     
-    if(test_result_hash["societal"])
-      test_result_hash["societal_match"] = get_label(test_result_hash["societal"], societalArray)
+    if(self.societal)
+      self.societal_match = get_label(self.societal, societalArray)
     end
-
-    test_result_hash["ideology_match_name"] = TestResult.get_ideology_for(test_result_hash)["name"]
-    test_result_hash["ideology_match_definition"] = TestResult.get_ideology_for(test_result_hash)["definition"]
-    test_result_hash["ideology_match_definition_source"] = TestResult.get_ideology_for(test_result_hash)["definition_source"]
-    
-    test_result_hash
 
   end
 
-  def self.get_ideology_for(test_result_hash) 
-      
+  def set_ideology
+
     matched_ideology = {}
 
     ideodist = Float::INFINITY
-
-    # ideologies = []
-    # ideologies.push(Ideology.first)
-    # ideologies.each do |ideology|
 
     Ideology.all.each do |ideology|
       
@@ -75,10 +67,10 @@ class TestResult < ApplicationRecord
       liberty = 50
       progress = 50
       
-      if(test_result_hash["economic"]) then equality = test_result_hash["economic"] end
-      if(test_result_hash["diplomatic"]) then peace = test_result_hash["diplomatic"] end
-      if(test_result_hash["civil"]) then liberty = test_result_hash["civil"] end
-      if(test_result_hash["societal"]) then progress = test_result_hash["societal"] end
+      if(self.economic) then equality = self.economic end
+      if(self.diplomatic) then peace = self.diplomatic end
+      if(self.civil) then liberty = self.civil end
+      if(self.societal) then progress = self.societal end
       
       wealth = ('%.1f' % (100 - equality))
       might = ('%.1f' % (100 - peace))
@@ -86,10 +78,10 @@ class TestResult < ApplicationRecord
       tradition = ('%.1f' % (100 - progress))
 
       dist = 0
-      if(test_result_hash["economic"]) then dist += ((ideology.economic_effect - equality).abs()) ** 2 end
-      if(test_result_hash["diplomatic"]) then dist += ((ideology.diplomatic_effect - peace).abs()) ** 1.73856063 end
-      if(test_result_hash["civil"]) then dist += ((ideology.government_effect - liberty).abs()) ** 2 end
-      if(test_result_hash["societal"]) then dist += ((ideology.societal_effect - progress).abs()) ** 1.73856063 end
+      if(self.economic) then dist += ((ideology.economic_effect - equality).abs()) ** 2 end
+      if(self.diplomatic) then dist += ((ideology.diplomatic_effect - peace).abs()) ** 1.73856063 end
+      if(self.civil) then dist += ((ideology.government_effect - liberty).abs()) ** 2 end
+      if(self.societal) then dist += ((ideology.societal_effect - progress).abs()) ** 1.73856063 end
 
       if dist < ideodist
         matched_ideology["name"] = ideology.name
@@ -100,7 +92,10 @@ class TestResult < ApplicationRecord
 
     end
 
-    matched_ideology
+    self.ideology_match_name = matched_ideology["name"]
+    self.ideology_match_definition = matched_ideology["definition"]
+    self.ideology_match_definition_source = matched_ideology["definition_source"]
 
   end
+
 end

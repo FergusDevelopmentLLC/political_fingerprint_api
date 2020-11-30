@@ -3,16 +3,8 @@ class TestResultsController < ApplicationController
 
   # GET /test_results
   def index
-    
     # @test_results = TestResult.all
     # render json: @test_results
-
-    # @test_results = TestResult.all
-    # trs = @test_results.map { |test_result| 
-    #   tr = anonymize(test_result)
-    # }.sort_by { |tr| tr["id"] }
-
-    # render json: trs
   end
 
   # GET /test_results/1
@@ -27,21 +19,31 @@ class TestResultsController < ApplicationController
     
     @test_result = TestResult.new(test_result_params)
 
+    @test_result.set_matches
+
+    @test_result.set_ideology
+
     # save geolocation info for the test taker (uses ipinfo)
     handler = IPinfo::create(ENV["IPINFO_TOKEN"])
     details = handler.details(request.remote_ip.to_str)
-    
+
     # logger.debug("===================================================")
     # logger.debug("request.remote_ip.to_str: #{request.remote_ip.to_str}")
     # logger.debug("details: #{details.to_s}")
     # logger.debug("city: #{details.respond_to?(:city)}")
     # logger.debug("region: #{details.respond_to?(:region)}")
     # logger.debug("===================================================")
+    
+    if (request.remote_ip.to_str == "127.0.0.1") then
+      city = "Denver"
+      region = "Colorado"
+    elsif details.city && details.region
+      city = details.city
+      region = details.region
+    end
 
-    if details.respond_to?(:city) and details.respond_to?(:region)
-
-      city = City.find_by(name: details.city, state_name: details.region)
-      
+    if city and region
+      city = City.find_by(name: city, state_name: region)
       if city
         county = County.find_by(name: city.county_name, state_abbrev: city.state_abbrev)
         if county
@@ -83,12 +85,18 @@ class TestResultsController < ApplicationController
   def test_results_check
 
     test_result = TestResult.find(params["test_result"]["id"].to_i)
-    test_result.county_id = County.find_by(geoid: params["test_result"]["countyGeoId"].to_s).id
+    
+    if(params["test_result"]["countyGeoId"]) then 
+      test_result.county_id = County.find_by(geoid: params["test_result"]["countyGeoId"].to_s).id
+    else 
+      test_result.county_id = nil
+    end
+
     test_result.opt_in = !!params["test_result"]["optIn"]
     test_result.county_override = !!params["test_result"]["countyOverride"]
     
     if test_result.save
-      render json: test_result
+      render json: test_result, include: :county
     else
       render json: test_result.errors, status: :unprocessable_entity
     end
@@ -105,17 +113,29 @@ class TestResultsController < ApplicationController
       group by counties.geoid, counties.name, counties.state_abbrev, counties.state_name
       order by counties.geoid;
     }
+    
     averaged = ActiveRecord::Base.connection.execute(sql)
     
-    trs = averaged.map {|tr| TestResult.populate_matches_for(tr) }
+    trs = averaged.map {|atr| 
+      
+      tr = {}
+      tr["economic"] = atr["economic"]
+      tr["diplomatic"] = atr["diplomatic"]
+      tr["civil"] = atr["civil"]
+      tr["societal"] = atr["societal"]
 
-    # https://stackoverflow.com/questions/39542167/max-value-within-array-of-objects
-    max = trs.map {|tr| tr["tr_count"]}.max.to_i
-    # min = averaged.map {|tr| tr["tr_count"]}.min.to_i
-    # total = trs.sum {|tr| tr["tr_count"]}.to_i
+      tr["name"] = atr["name"]
+      tr["state_abbrev"] = atr["state_abbrev"]
+      tr["state_name"] = atr["state_name"]
+      tr["geoid"] = atr["geoid"]
+      tr["tr_count"] = atr["tr_count"]
+      tr
+    }
 
+    max_county_tr_count = trs.map {|tr| tr["tr_count"]}.max.to_i
+    
     trs_with_pct = trs.map {|tr|
-      tr["pct_height"] = tr["tr_count"].to_f / max
+      tr["pct_height"] = tr["tr_count"].to_f / max_county_tr_count
       tr
     }
 
@@ -127,31 +147,28 @@ class TestResultsController < ApplicationController
     
     counties = County.limit(params[:limit].to_i).order("RANDOM()")
 
-    trs = []
-    counties.each.with_index(1) {|county, index|
-      tr = {}
-      tr["geoid"] = county.geoid
-      tr["economic"] = rand(1..99)
-      tr["diplomatic"] = rand(1..99)
-      tr["civil"] = rand(1..99)
-      tr["societal"] = rand(1..99)
-      tr["name"] = "#{county.name} County"
-      tr["state_abbrev"] = county.state_abbrev
-      tr["state_name"] = county.state_name
-      tr["tr_count"] = rand(1..10)
+    trs = counties.map {|county|
+      
+      testResult = {}
+      
+      testResult["economic"] = rand(1..99)
+      testResult["diplomatic"] = rand(1..99)
+      testResult["civil"] = rand(1..99)
+      testResult["societal"] = rand(1..99)
+      testResult["tr_count"] = rand(1..10)
 
-      TestResult.populate_matches_for(tr)
-
-      trs.push(tr)
+      testResult["name"] = "#{county.name} County"
+      testResult["state_abbrev"] = county.state_abbrev
+      testResult["state_name"] = county.state_name
+      testResult["geoid"] = county.geoid
+      
+      testResult
     }
 
-    # https://stackoverflow.com/questions/39542167/max-value-within-array-of-objects
-    max = trs.map {|tr| tr["tr_count"]}.max.to_i
-    # min = averaged.map {|tr| tr["tr_count"]}.min.to_i
-    # total = trs.sum {|tr| tr["tr_count"]}.to_i
-
+    max_county_tr_count = trs.map {|tr| tr["tr_count"]}.max.to_i
+    
     trs_with_pct = trs.map {|tr|
-      tr["pct_height"] = tr["tr_count"].to_f / max
+      tr["pct_height"] = tr["tr_count"].to_f / max_county_tr_count
       tr
     }
 
@@ -161,15 +178,28 @@ class TestResultsController < ApplicationController
 
   def get_ideology_matches
     
-    tr = {}
+    tr = TestResult.new
+
     tr["economic"] = params[:economic].to_f
     tr["diplomatic"] = params[:diplomatic].to_f
     tr["civil"] = params[:civil].to_f
     tr["societal"] = params[:societal].to_f
+    
+    tr.set_matches
+    tr.set_ideology
 
-    TestResult.populate_matches_for(tr)
+    testResult = tr.attributes
+    
+    testResult["economic_match"] = tr.economic_match
+    testResult["diplomatic_match"] = tr.diplomatic_match
+    testResult["civil_match"] = tr.civil_match
+    testResult["societal_match"] = tr.societal_match
+      
+    testResult["ideology_match_name"] = tr.ideology_match_name
+    testResult["ideology_match_definition"] = tr.ideology_match_definition
+    testResult["ideology_match_definition_source"] = tr.ideology_match_definition_source
 
-    render json: tr
+    render json: testResult
 
   end
 
@@ -182,27 +212,6 @@ class TestResultsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def test_result_params
       params.require(:test_result).permit(:question_version, :economic, :diplomatic, :civil, :societal)
-    end
-
-    def anonymize(test_result)
-      tr = {}
-
-      tr["url"] = test_result.url
-      tr["question_version"] = test_result.question_version
-
-      if(test_result.respond_to?(:county))
-        tr["geoid"] = test_result.county.geoid
-        tr["name"] = "#{test_result.county.name} County"
-        tr["state_abbrev"] = test_result.county.state_abbrev
-        tr["state_name"] = test_result.county.state_name
-      end
-      
-      tr["economic"] = test_result["economic"]
-      tr["diplomatic"] = test_result["diplomatic"]
-      tr["civil"] = test_result["civil"]
-      tr["societal"] = test_result["societal"]
-
-      tr
     end
 
   end
