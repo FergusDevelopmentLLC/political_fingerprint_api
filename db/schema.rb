@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_232843) do
+ActiveRecord::Schema.define(version: 2020_12_01_234954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_232843) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "opt_in"
     t.boolean "county_override"
+    t.string "county_geoid"
   end
 
 end
