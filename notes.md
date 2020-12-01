@@ -264,3 +264,43 @@ def counties_by_state
     
     render json: return_array
   end
+
+
+  1 | 48439
+  2 | 08031
+  3 | 48453
+  4 | 42027
+  5 | 06085
+  6 | 08031
+  7 | 48439
+  8 | 08031
+  9 | 53073
+ 10 | 36081
+ 11 | 08031
+ 12 | 06085
+ 13 | 48453
+ 14 | 18089
+ 15 | 27163
+ 16 | 53033
+ 17 | 48389
+ 18 | 08031
+ 19 | 18089
+ 20 | 18089
+ 21 | 08031
+ 22 | 08031
+
+
+==================================
+
+
+
+class AddCountyGeoIdToTestResults < ActiveRecord::Migration[6.0]
+  def change
+    add_column :test_results, :county_geoid, :string
+  end
+end
+
+
+
+
+

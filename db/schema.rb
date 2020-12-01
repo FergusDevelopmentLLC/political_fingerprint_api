@@ -32,18 +32,6 @@ ActiveRecord::Schema.define(version: 2020_12_01_192304) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "counties", primary_key: "geoid", id: :string, force: :cascade do |t|
-    t.string "name"
-    t.string "statefp"
-    t.string "countyfp"
-    t.string "state_abbrev"
-    t.string "state_name"
-    t.float "latitude"
-    t.float "longitude"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "ideologies", force: :cascade do |t|
     t.string "name"
     t.string "definition"
@@ -93,8 +81,6 @@ ActiveRecord::Schema.define(version: 2020_12_01_192304) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "opt_in"
     t.boolean "county_override"
-    t.string "county_geoid"
   end
 
-  add_foreign_key "test_results", "counties", column: "county_geoid", primary_key: "geoid"
 end
