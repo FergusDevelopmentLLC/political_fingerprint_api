@@ -127,7 +127,7 @@ class TestResultsController < ApplicationController
       tr["name"] = atr["name"]
       tr["state_abbrev"] = atr["state_abbrev"]
       tr["state_name"] = atr["state_name"]
-      tr["geoid"] = atr["geoid"]
+      tr["county_geoid"] = atr["geoid"]
       tr["tr_count"] = atr["tr_count"]
       tr
     }
@@ -160,7 +160,7 @@ class TestResultsController < ApplicationController
       testResult["name"] = "#{county.name} County"
       testResult["state_abbrev"] = county.state_abbrev
       testResult["state_name"] = county.state_name
-      testResult["geoid"] = county.geoid
+      testResult["county_geoid"] = county.geoid
       
       testResult
     }
