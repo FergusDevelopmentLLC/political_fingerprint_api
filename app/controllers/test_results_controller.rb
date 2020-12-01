@@ -145,34 +145,36 @@ class TestResultsController < ApplicationController
 
   def fake
     
-    counties = County.limit(params[:limit].to_i).order("RANDOM()")
+    render json: "here"
 
-    trs = counties.map {|county|
-      
-      testResult = {}
-      
-      testResult["economic"] = rand(1..99)
-      testResult["diplomatic"] = rand(1..99)
-      testResult["civil"] = rand(1..99)
-      testResult["societal"] = rand(1..99)
-      testResult["tr_count"] = rand(1..10)
+    # counties = County.limit(params[:limit].to_i).order("RANDOM()")
 
-      testResult["name"] = "#{county.name} County"
-      testResult["state_abbrev"] = county.state_abbrev
-      testResult["state_name"] = county.state_name
-      testResult["county_geoid"] = county.geoid
+    # trs = counties.map {|county|
       
-      testResult
-    }
+    #   testResult = {}
+      
+    #   testResult["economic"] = rand(1..99)
+    #   testResult["diplomatic"] = rand(1..99)
+    #   testResult["civil"] = rand(1..99)
+    #   testResult["societal"] = rand(1..99)
+    #   testResult["tr_count"] = rand(1..10)
 
-    max_county_tr_count = trs.map {|tr| tr["tr_count"]}.max.to_i
+    #   testResult["name"] = "#{county.name} County"
+    #   testResult["state_abbrev"] = county.state_abbrev
+    #   testResult["state_name"] = county.state_name
+    #   testResult["county_geoid"] = county.geoid
+      
+    #   testResult
+    # }
+
+    # max_county_tr_count = trs.map {|tr| tr["tr_count"]}.max.to_i
     
-    trs_with_pct = trs.map {|tr|
-      tr["pct_height"] = tr["tr_count"].to_f / max_county_tr_count
-      tr
-    }
+    # trs_with_pct = trs.map {|tr|
+    #   tr["pct_height"] = tr["tr_count"].to_f / max_county_tr_count
+    #   tr
+    # }
 
-    render json: trs_with_pct
+    # render json: trs_with_pct
 
   end
 
