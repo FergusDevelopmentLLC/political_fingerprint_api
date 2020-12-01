@@ -1,7 +1,8 @@
 class CreateCounties < ActiveRecord::Migration[6.0]
   def change
-    create_table :counties do |t|
-      t.string :geoid
+    create_table :counties, id: false, primary_key: :geoid do |t|
+    
+      t.primary_key :geoid, :string
       t.string :name
       t.string :statefp
       t.string :countyfp
@@ -14,3 +15,5 @@ class CreateCounties < ActiveRecord::Migration[6.0]
     end
   end
 end
+
+

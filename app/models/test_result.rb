@@ -1,5 +1,5 @@
 class TestResult < ApplicationRecord
-  belongs_to :county, optional: true
+  belongs_to :county, foreign_key: 'county_geoid', optional: true
 
   attr_accessor :economic_match, :diplomatic_match, :civil_match, :societal_match, :ideology_match_name, :ideology_match_definition, :ideology_match_definition_source
   

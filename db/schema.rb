@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_19_152703) do
+ActiveRecord::Schema.define(version: 2020_12_01_192304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,8 +32,7 @@ ActiveRecord::Schema.define(version: 2020_10_19_152703) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "counties", force: :cascade do |t|
-    t.string "geoid"
+  create_table "counties", primary_key: "geoid", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "statefp"
     t.string "countyfp"
@@ -92,9 +91,10 @@ ActiveRecord::Schema.define(version: 2020_10_19_152703) do
     t.float "societal"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "county_id"
     t.boolean "opt_in"
     t.boolean "county_override"
+    t.string "county_geoid"
   end
 
+  add_foreign_key "test_results", "counties", column: "county_geoid", primary_key: "geoid"
 end

@@ -68,11 +68,11 @@ class TestResultsController < ApplicationController
   # PATCH/PUT /test_results/1
   def update
     
-    # if @test_result.update(test_result_params)
-    #   render json: @test_result
-    # else
-    #   render json: @test_result.errors, status: :unprocessable_entity
-    # end
+    if @test_result.update(test_result_params)
+      render json: @test_result
+    else
+      render json: @test_result.errors, status: :unprocessable_entity
+    end
 
   end
 
@@ -82,33 +82,33 @@ class TestResultsController < ApplicationController
   end
 
   # PATCH/PUT /test_results_check/
-  def test_results_check
+  # def test_results_check
 
-    test_result = TestResult.find(params["test_result"]["id"].to_i)
+  #   test_result = TestResult.find(params["test_result"]["id"].to_i)
     
-    if(params["test_result"]["countyGeoId"]) then 
-      test_result.county_id = County.find_by(geoid: params["test_result"]["countyGeoId"].to_s).id
-    else 
-      test_result.county_id = nil
-    end
+  #   if(params["test_result"]["countyGeoId"]) then 
+  #     test_result.county_id = County.find_by(geoid: params["test_result"]["countyGeoId"].to_s).id
+  #   else 
+  #     test_result.county_id = nil
+  #   end
 
-    test_result.opt_in = !!params["test_result"]["optIn"]
-    test_result.county_override = !!params["test_result"]["countyOverride"]
+  #   test_result.opt_in = !!params["test_result"]["optIn"]
+  #   test_result.county_override = !!params["test_result"]["countyOverride"]
     
-    if test_result.save
-      render json: test_result, include: :county
-    else
-      render json: test_result.errors, status: :unprocessable_entity
-    end
+  #   if test_result.save
+  #     render json: test_result, include: :county
+  #   else
+  #     render json: test_result.errors, status: :unprocessable_entity
+  #   end
 
-  end
+  # end
 
   def averaged_by_county
 
     sql = %{
       select counties.geoid, avg(economic) as economic, avg(diplomatic) as diplomatic, avg(civil) as civil, avg(societal) as societal, CONCAT(counties.name, ' County') as name, counties.state_abbrev, counties.state_name, count(*) as tr_count
       from test_results
-      join counties on counties.id = test_results.county_id
+      join counties on counties.geoid = test_results.county_geoid
       where test_results.opt_in = true
       group by counties.geoid, counties.name, counties.state_abbrev, counties.state_name
       order by counties.geoid;
@@ -211,7 +211,7 @@ class TestResultsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def test_result_params
-      params.require(:test_result).permit(:question_version, :economic, :diplomatic, :civil, :societal)
+      params.require(:test_result).permit(:id, :question_version, :economic, :diplomatic, :civil, :societal, :county_override, :county_geoid, :opt_in)
     end
 
   end
