@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_192304) do
+ActiveRecord::Schema.define(version: 2020_12_01_232843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,18 @@ ActiveRecord::Schema.define(version: 2020_12_01_192304) do
     t.string "state_abbrev"
     t.string "state_name"
     t.string "county_name"
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "counties", primary_key: "geoid", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.string "statefp"
+    t.string "countyfp"
+    t.string "state_abbrev"
+    t.string "state_name"
     t.float "latitude"
     t.float "longitude"
     t.datetime "created_at", precision: 6, null: false
