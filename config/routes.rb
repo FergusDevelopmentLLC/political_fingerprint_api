@@ -20,9 +20,9 @@ Rails.application.routes.draw do
 
   get '/', to: 'application#welcome'
 
-  get 'questions/by_version/:version', to: 'questions#by_version'
+  get '/test_results_fake/:limit', to: 'test_results#fake'
 
-  get 'test_results_fake/:limit', to: 'test_results#fake'
+  get '/questions/by_version/:version', to: 'questions#by_version'
 
   get '/test_results_averaged', to: 'test_results#averaged_by_county'
   
