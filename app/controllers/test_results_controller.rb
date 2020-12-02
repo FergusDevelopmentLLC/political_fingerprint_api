@@ -81,28 +81,6 @@ class TestResultsController < ApplicationController
     # @test_result.destroy
   end
 
-  # PATCH/PUT /test_results_check/
-  # def test_results_check
-
-  #   test_result = TestResult.find(params["test_result"]["id"].to_i)
-    
-  #   if(params["test_result"]["countyGeoId"]) then 
-  #     test_result.county_id = County.find_by(geoid: params["test_result"]["countyGeoId"].to_s).id
-  #   else 
-  #     test_result.county_id = nil
-  #   end
-
-  #   test_result.opt_in = !!params["test_result"]["optIn"]
-  #   test_result.county_override = !!params["test_result"]["countyOverride"]
-    
-  #   if test_result.save
-  #     render json: test_result, include: :county
-  #   else
-  #     render json: test_result.errors, status: :unprocessable_entity
-  #   end
-
-  # end
-
   def averaged_by_county
 
     sql = %{
@@ -118,18 +96,35 @@ class TestResultsController < ApplicationController
     
     trs = averaged.map {|atr| 
       
-      tr = {}
-      tr["economic"] = atr["economic"]
-      tr["diplomatic"] = atr["diplomatic"]
-      tr["civil"] = atr["civil"]
-      tr["societal"] = atr["societal"]
+      tr = TestResult.new
 
-      tr["name"] = atr["name"]
-      tr["state_abbrev"] = atr["state_abbrev"]
-      tr["state_name"] = atr["state_name"]
-      tr["county_geoid"] = atr["geoid"]
-      tr["tr_count"] = atr["tr_count"]
-      tr
+      tr.economic = atr["economic"]
+      tr.diplomatic = atr["diplomatic"]
+      tr.civil = atr["civil"]
+      tr.societal = atr["societal"]
+      
+      tr.set_matches
+      tr.set_ideology
+  
+      testResult = tr.attributes
+      
+      testResult["tr_count"] = atr["tr_count"]
+
+      testResult["name"] = atr["name"]
+      testResult["state_abbrev"] = atr["state_abbrev"]
+      testResult["state_name"] = atr["state_name"]
+      testResult["county_geoid"] = atr["geoid"]
+
+      testResult["economic_match"] = tr.economic_match
+      testResult["diplomatic_match"] = tr.diplomatic_match
+      testResult["civil_match"] = tr.civil_match
+      testResult["societal_match"] = tr.societal_match
+        
+      testResult["ideology_match_name"] = tr.ideology_match_name
+      testResult["ideology_match_definition"] = tr.ideology_match_definition
+      testResult["ideology_match_definition_source"] = tr.ideology_match_definition_source
+
+      testResult
     }
 
     max_county_tr_count = trs.map {|tr| tr["tr_count"]}.max.to_i
@@ -145,49 +140,47 @@ class TestResultsController < ApplicationController
 
   def fake
     
-    puts "here1"
-
     counties = County.limit(params[:limit].to_i).order("RANDOM()")
-
-    puts "here2"
-    puts counties
 
     trs = counties.map {|county|
 
-      puts "here3"
-      puts county
+      tr = TestResult.new
+
+      tr.economic = rand(1..99)
+      tr.diplomatic = rand(1..99)
+      tr.civil = rand(1..99)
+      tr.societal = rand(1..99)
       
-      testResult = {}
+      tr.set_matches
+      tr.set_ideology
+  
+      testResult = tr.attributes
       
-      testResult["economic"] = rand(1..99)
-      testResult["diplomatic"] = rand(1..99)
-      testResult["civil"] = rand(1..99)
-      testResult["societal"] = rand(1..99)
       testResult["tr_count"] = rand(1..10)
 
       testResult["name"] = "#{county.name} County"
       testResult["state_abbrev"] = county.state_abbrev
       testResult["state_name"] = county.state_name
       testResult["county_geoid"] = county.geoid
-      
-      puts "here4"
-      puts testResult
 
+      testResult["economic_match"] = tr.economic_match
+      testResult["diplomatic_match"] = tr.diplomatic_match
+      testResult["civil_match"] = tr.civil_match
+      testResult["societal_match"] = tr.societal_match
+        
+      testResult["ideology_match_name"] = tr.ideology_match_name
+      testResult["ideology_match_definition"] = tr.ideology_match_definition
+      testResult["ideology_match_definition_source"] = tr.ideology_match_definition_source
+      
       testResult
     }
     
     max_county_tr_count = trs.map {|tr| tr["tr_count"]}.max.to_i
     
-    puts "here5"
-    puts max_county_tr_count
-    
     trs_with_pct = trs.map {|tr|
       tr["pct_height"] = tr["tr_count"].to_f / max_county_tr_count
       tr
     }
-
-    puts "here6"
-    puts trs_with_pct
 
     render json: trs_with_pct
 
@@ -197,10 +190,10 @@ class TestResultsController < ApplicationController
     
     tr = TestResult.new
 
-    tr["economic"] = params[:economic].to_f
-    tr["diplomatic"] = params[:diplomatic].to_f
-    tr["civil"] = params[:civil].to_f
-    tr["societal"] = params[:societal].to_f
+    tr.economic = params[:economic].to_f
+    tr.diplomatic = params[:diplomatic].to_f
+    tr.civil = params[:civil].to_f
+    tr.societal = params[:societal].to_f
     
     tr.set_matches
     tr.set_ideology
