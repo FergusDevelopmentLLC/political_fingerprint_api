@@ -202,7 +202,11 @@ class TestResultsController < ApplicationController
     tr.set_matches
     tr.set_ideology
 
-    testResult = tr.attributes
+    testResult = {}
+    testResult["economic"] = tr.economic
+    testResult["diplomatic"] = tr.diplomatic
+    testResult["civil"] = tr.civil    
+    testResult["societal"] = tr.societal
     
     testResult["economic_match"] = tr.economic_match
     testResult["diplomatic_match"] = tr.diplomatic_match
