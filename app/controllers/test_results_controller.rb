@@ -67,9 +67,13 @@ class TestResultsController < ApplicationController
 
   # PATCH/PUT /test_results/1
   def update
+
+    if(!test_result_params["county_geoid"])
+      @test_result.county = nil
+    end
     
     if @test_result.update(test_result_params)
-      render json: @test_result
+      render json: @test_result.to_json(include: { county: { except: [:countyfp, :id, :latitude, :longitude, :statefp, :created_at, :updated_at] } }, :except => [:county_id, :created_at, :updated_at])
     else
       render json: @test_result.errors, status: :unprocessable_entity
     end
