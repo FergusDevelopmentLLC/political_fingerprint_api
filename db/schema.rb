@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_234954) do
+ActiveRecord::Schema.define(version: 2020_12_02_000149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,4 +96,5 @@ ActiveRecord::Schema.define(version: 2020_12_01_234954) do
     t.string "county_geoid"
   end
 
+  add_foreign_key "test_results", "counties", column: "county_geoid", primary_key: "geoid"
 end
