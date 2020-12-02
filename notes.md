@@ -265,40 +265,45 @@ def counties_by_state
     render json: return_array
   end
 
+SELECT version
+  FROM public.schema_migrations
+  where version IN (20201019152059,20201130235909,20201201001055,20201201004541,20201201030124,20201201032545,20201201033652,20201201033717,20201201155956,20201201160142);
 
-  1 | 48439
-  2 | 08031
-  3 | 48453
-  4 | 42027
-  5 | 06085
-  6 | 08031
-  7 | 48439
-  8 | 08031
-  9 | 53073
- 10 | 36081
- 11 | 08031
- 12 | 06085
- 13 | 48453
- 14 | 18089
- 15 | 27163
- 16 | 53033
- 17 | 48389
- 18 | 08031
- 19 | 18089
- 20 | 18089
- 21 | 08031
- 22 | 08031
+delete from schema_migrations
+where version in ('20201019152059','20201130235909');
+
+select * from counties order by geoid;
+
+\copy counties FROM '/tmp/countiesv3.csv' with (format csv,header true, delimiter ',');
+
+COPY counties(geoid, name, statefp, countyfp, state_abbrev, state_name, latitude, longitude, created_at, updated_at)
+FROM '/tmp/countiesv3.csv'
+DELIMITER ','
+CSV HEADER;
+
+update test_results set county_geoid = '48439' where id = 1;
+update test_results set county_geoid = '08031' where id = 2;
+update test_results set county_geoid = '48453' where id = 3;
+update test_results set county_geoid = '42027' where id = 4;
+update test_results set county_geoid = '06085' where id = 5;
+update test_results set county_geoid = '08031' where id = 6;
+update test_results set county_geoid = '48439' where id = 7;
+update test_results set county_geoid = '08031' where id = 8;
+update test_results set county_geoid = '53073' where id = 9;
+update test_results set county_geoid = '36081' where id = 10;
+update test_results set county_geoid = '08031' where id = 11;
+update test_results set county_geoid = '06085' where id = 12;
+update test_results set county_geoid = '48453' where id = 13;
+update test_results set county_geoid = '18089' where id = 14;
+update test_results set county_geoid = '27163' where id = 15;
+update test_results set county_geoid = '53033' where id = 16;
+update test_results set county_geoid = '48389' where id = 17;
+update test_results set county_geoid = '08031' where id = 18;
+update test_results set county_geoid = '18089' where id = 19;
+update test_results set county_geoid = '18089' where id = 20;
 
 
-==================================
-
-
-
-class AddCountyGeoIdToTestResults < ActiveRecord::Migration[6.0]
-  def change
-    add_column :test_results, :county_geoid, :string
-  end
-end
+https://www.fatlemon.co.uk/2018/08/foreign-keys-to-custom-primary-key-caveats-in-ruby-on-rails/
 
 
 
